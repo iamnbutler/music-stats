@@ -7,12 +7,19 @@ var LAST_FM = new LastFM({
 });
 var DATASET = [];
 var ARTISTS = [];
-var WIDTH = 492;
-var HEIGHT = 600;
-var PADDING = 0;
+var WIDTH = $("#scrobbles-graph").width();
+var HEIGHT = ($("#scrobbles-graph").height())*2;
+var PADDING = 2;
+
+// Supporting Functions
+
+function addCommas(intNum) {
+  return (intNum + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+}
+
+// Last.fm API stuff
 
 $(document).ready(function() {
-    $("#user").html(ACTIVE_USER);
     LAST_FM.library.getArtists({
        user : ACTIVE_USER 
     },{
@@ -27,6 +34,31 @@ $(document).ready(function() {
         },
         error   : function (data) {}
     });
+
+    // Get User info
+    LAST_FM.user.getInfo({
+       user : ACTIVE_USER
+    }, {
+        success : function (user) {
+            $("#user").html(user.user.realname + "'s Profile");
+
+            // Get # of scrobbles as a number with commas
+            var scrobbles = user.user.playcount;
+            var scrobblesFormatted = addCommas(user.user.playcount);
+            $("#u-scrobbles-graph-count").html(scrobblesFormatted);
+        },
+        error   : function (user) {}
+    });
+
+    // Get User weekly chart
+    LAST_FM.user.getWeeklyChartList({
+       user : ACTIVE_USER
+    }, {
+        success : function (user) {
+            console.log(user.weeklychartlist);
+        },
+        error   : function (user) {}
+    });
 });
 
 /**
@@ -40,14 +72,14 @@ $(document).ready(function() {
  */
 barchart = function (data, labels, width, height, padding) {
     var w = width || 500;
-    var h = height || 100;
+    var h = height || 300;
     var barPadding = padding || 1;
     var max = 0;
     data.forEach(function (value) {
         if (Number(max) < Number(value)) max = Number(value);
     });
     
-    var svg = d3.select("#chart")
+    var svg = d3.select("#scrobbles-graph")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
@@ -67,29 +99,9 @@ barchart = function (data, labels, width, height, padding) {
             return normalize(d, max, h / 2);
         })
         .attr("fill", function(d) {
-            return "rgb(0, 150, " + normalize(d, max, 255) + ")";
+            return "rgb(255, 255, 255)";
         });
-    
-    /* svg.selectAll("text")
-        .data(labels)
-        .enter()
-        .append("text")
-        .text(function(d, i) {
-            return '' + d + ' (' + data[i] + ')';
-        })
-        .attr("x", function(d, i) {
-            return i * (w / data.length) + 5;
-        })
-        .attr("y", function(d) {
-            return h / 2 + 15;
-        })
-        .attr("font-family", "sans-serif")
-        .attr("font-size", "11px")
-        .attr("fill", "black")
-        .attr("transform", function (d, i) {
-            return "rotate(90," + (i * (w / data.length) + 5) + "," + (h / 2 + 15) + ")";
-        }); */
-    
+
     return;
 };
 
