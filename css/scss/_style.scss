@@ -1,8 +1,14 @@
-// SW
+// App Variables
 
-$app-bg-color: #353C47;
-$app-text-color: #FFFFFF;
+$app-bg-color: #FFF;
+
+$app-text-color: #8a95a5;
+$app-text-color-dark: #4e515e;
 $app-secondary-color: #0096FF;
+
+$app-border-color: #e5e6e8;
+
+// SW
 
 body {
 	background-color: $app-bg-color;
@@ -14,9 +20,10 @@ body {
 .app-header {
 	$app-header-height: 70px;
 	height: $app-header-height;
+	border-bottom: 1px solid $app-border-color;
 
 	.inner {
-		width: 1024px;
+		// width: 1024px;
 		margin: 0 auto;
 		display: flex;
 		@extend .cf; // Clearfix
@@ -47,8 +54,7 @@ body {
 		height: $app-header-height/2;
 		margin: $app-header-height/4 12px;
 		border: none;
-		border-radius: 8px;
-		padding: 0px 12px;
+		padding: 0px 0px;
 		flex: 1;
 		outline: 0;
 		font-size: 1em;
@@ -56,11 +62,13 @@ body {
 
 	.logo {
 		line-height: $app-header-height/2;
-		margin: $app-header-height/4 44px $app-header-height/4 0;
-		padding: 0 12px;
+		margin: $app-header-height/4 16px $app-header-height/4 0;
+		padding: 0 16px;
 		text-transform: uppercase;
 		font-weight: bold;
 		font-size: 1.2em;
+		color: $app-text-color-dark;
+		border-right: 1px solid $app-border-color;
 		span {
 			font-weight: 300;
 		}
@@ -70,7 +78,6 @@ body {
 // Body
 
 .app-body {
-	margin-top: 40px;
 
 	.inner {
 		width: 1024px;
@@ -88,6 +95,18 @@ body {
 .app-chart {
 	overflow: hidden;
 }
+
+	// Header
+
+	.app-body-header {
+		padding: 50px 60px;
+		border-bottom: 1px solid $app-border-color;
+		h3 {
+			font-size: 1.8em;
+			line-height: 1.3em;
+			color: $app-text-color-dark;
+		}
+	}
 
 // Info Frame
 
@@ -111,4 +130,37 @@ body {
 	font-size: 0.8em;
 	line-height: 1.4;
 	max-width: 340px;
+}
+
+// UNITS
+
+// Scrobble Graph Unit
+
+.app-u-scrobbles-graph {
+	height: 180px;
+	background-color: $app-secondary-color;
+	color: white;
+	display: flex;
+
+	.info {
+		padding: 40px 30px 40px 60px;
+		.count {
+			font-size: 2.4em;
+			line-height: 1.2;
+			font-weight: 300;
+		}
+
+		.label {
+			text-transform: uppercase;
+			font-size: 0.9em;
+			font-weight: bold;
+			color: rgba(255,255,255,0.8);
+		}
+	}
+
+	.graph {
+		padding: 20px 60px 0px 30px;
+		flex: 1;
+		overflow: hidden;
+	}
 }
