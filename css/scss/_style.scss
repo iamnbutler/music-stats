@@ -10,9 +10,14 @@ $app-border-color: #e5e6e8;
 
 // SW
 
+html {
+	height: 100%;
+}
+
 body {
 	background-color: $app-bg-color;
 	color: $app-text-color;
+	height: 100%;
 }
 
 // Header

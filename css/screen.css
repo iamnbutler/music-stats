@@ -75,10 +75,19 @@ a, a:hover {
   text-decoration: none;
   color: inherit; }
 
-/* = Custom style starts here = */
+.app-sidebar {
+  width: 240px;
+  background-color: #efefef;
+  height: 100%;
+  overflow: hidden; }
+
+html {
+  height: 100%; }
+
 body {
   background-color: #FFF;
-  color: #8a95a5; }
+  color: #8a95a5;
+  height: 100%; }
 
 .app-header {
   height: 70px;

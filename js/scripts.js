@@ -21,7 +21,8 @@ function addCommas(intNum) {
 
 $(document).ready(function() {
     LAST_FM.library.getArtists({
-       user : ACTIVE_USER 
+       user : ACTIVE_USER ,
+       limit : 30
     },{
         success : function (data) {
             data.artists.artist.forEach(function (a) {
@@ -30,6 +31,8 @@ $(document).ready(function() {
                 ARTISTS.push(a.name);
             });
             
+            console.log(data.artists);
+
             barchart (DATASET, ARTISTS, WIDTH, HEIGHT, PADDING);
         },
         error   : function (data) {}
@@ -59,6 +62,16 @@ $(document).ready(function() {
         },
         error   : function (user) {}
     });
+
+    // Get User weekly chart
+    LAST_FM.artist.getInfo({
+       artist : 'Cher'
+    }, {
+        success : function (user) {
+            console.log(artist);
+        },
+        error   : function (user) {}
+    });
 });
 
 /**
@@ -75,7 +88,7 @@ barchart = function (data, labels, width, height, padding) {
     var h = height || 300;
     var barPadding = padding || 1;
     var max = 0;
-    data.forEach(function (value) {
+    data.reverse().forEach(function (value) {
         if (Number(max) < Number(value)) max = Number(value);
     });
     
