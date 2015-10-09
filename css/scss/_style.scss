@@ -92,6 +92,37 @@ body {
 	}
 }
 
+// Nav
+
+.app-nav {
+	background-color: #F5F5F5;
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border-bottom: 1px solid $app-border-color;
+}
+
+.app-nav-item {
+	display: flex;
+	padding: 18px;
+
+	&.active {
+		background-color: white;
+	}
+	p {
+		display: block;
+		width: 100%;
+	}
+	.icon {
+		width: 100%;
+		height: 16px;
+		background-color: #efefef;
+		display: block;
+	}
+}
+
+//
+
 .app-chart, .app-info-frame {
 	width: 50%;
 	min-height: 300px;
