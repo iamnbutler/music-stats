@@ -1,23 +1,28 @@
 // App Variables
 
-$app-bg-color: #FFF;
+$app-bg-color: #29292e;
 
-$app-text-color: #8a95a5;
-$app-text-color-dark: #4e515e;
-$app-secondary-color: #0096FF;
+$app-text-color-white: #FFFFFF;
+$app-text-color: #b6bfc9;
+$app-text-color-dark: #5b5b5e;
+$app-secondary-color: #17bab8;
 
-$app-border-color: #e5e6e8;
+$app-border-color: #303038;
+$app-border-em-color: #44484f;
 
 // SW
 
 html {
 	height: 100%;
+	width: 100%;
 }
 
 body {
 	background-color: $app-bg-color;
 	color: $app-text-color;
 	height: 100%;
+	width: 100%;
+	overflow: hidden;
 }
 
 // Header
@@ -25,7 +30,7 @@ body {
 .app-header {
 	$app-header-height: 70px;
 	height: $app-header-height;
-	border-bottom: 1px solid $app-border-color;
+	box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
 
 	.inner {
 		// width: 1024px;
@@ -72,7 +77,7 @@ body {
 		text-transform: uppercase;
 		font-weight: bold;
 		font-size: 1.2em;
-		color: $app-text-color-dark;
+		color: $app-text-color-white;
 		border-right: 1px solid $app-border-color;
 		span {
 			font-weight: 300;
@@ -83,6 +88,14 @@ body {
 // Body
 
 .app-body {
+	position: relative;
+	header {
+		padding: 60px 36px;
+		h2 {
+			font-size: 2.4em;
+			font-weight: 300;
+		}
+	}
 
 	.inner {
 		width: 1024px;
@@ -92,44 +105,53 @@ body {
 	}
 }
 
-// Nav
-
-.app-nav {
-	background-color: #F5F5F5;
-	display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    border-bottom: 1px solid $app-border-color;
-}
-
-.app-nav-item {
-	display: flex;
-	padding: 18px;
-
-	&.active {
-		background-color: white;
-	}
-	p {
-		display: block;
-		width: 100%;
-	}
-	.icon {
-		width: 100%;
-		height: 16px;
-		background-color: #efefef;
-		display: block;
-	}
-}
 
 //
 
-.app-chart, .app-info-frame {
-	width: 50%;
-	min-height: 300px;
-}
-
 .app-chart {
-	overflow: hidden;
+	position: relative;
+	height: 500px;
+	width: 100%;
+	overflow-y: hidden;
+	overflow-x: scroll;
+
+	// Chart Grid
+
+	.app-chart-grid {
+		background-image: url("../img/grid.png");
+		background-repeat: repeat-x;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 300px;
+		min-width: 1400px;
+		border-bottom: 1px solid $app-border-em-color;
+		z-index: 1;
+	}
+
+	.app-chart-grid-labels {
+		position: absolute;
+		top: 0;
+		left: 162px;
+		z-index: 2;
+		.label {
+			background-color: $app-bg-color;
+			color: $app-text-color-dark;
+			width: 80px;
+			text-align: center;
+			height: 100px;
+			line-height: 100px;
+			border-bottom: 1px solid $app-border-color;
+			&:first-child {
+				margin-top: 1px;
+				height: 101px;
+			}
+			&:nth-child(3) {
+				height: 97px;
+				border: 0;
+			}
+		}
+	}
 }
 
 	// Header

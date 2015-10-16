@@ -1,3 +1,20 @@
+// Navigation
+
+// $(document).ready(function() {
+//     $('.app-nav-item').click(function(){
+//         $('.app-nav-item').removeClass('active');
+//         $(this).addClass('active');
+//         console.log("1");
+//         return false;
+//     });
+// });
+
+
+
+/*
+
+// TODO: Sort me
+
 var DEBUG = false;
 var ACTIVE_USER = 'iamnbutler';
 var LAST_FM = new LastFM({
@@ -74,15 +91,6 @@ $(document).ready(function() {
     });
 });
 
-/**
- * Creates a bar chart from an array of data.
- * @param {Array} data
- * @param {Array} labels
- * @param {Number} width
- * @param {Number} height
- * @param {Number} padding
- * @returns {undefined}
- */
 barchart = function (data, labels, width, height, padding) {
     var w = width || 500;
     var h = height || 300;
@@ -121,3 +129,5 @@ barchart = function (data, labels, width, height, padding) {
 normalize = function (value, max, range) {
     return Math.round((value * range) / max);
 };
+
+*/

@@ -1,12 +1,14 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>Lastfm Stats | A last.fm stat visualizer</title>
+		<title>Music Stats | A stat visualizer</title>
 
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 		<link rel="stylesheet" href="css/screen.css">
 		<!-- <link rel="icon" href="/favicon.ico"> -->
 
@@ -15,8 +17,7 @@
 		<div class="app-wrap">
 			<div class="app-header">
 				<div class="inner">
-					<a href="#" class="logo">Last.fm <span>Stats</span></a>
-					<input type="text" placeholder="Search for a last.fm username" class="app-user-input">
+					<a href="#" class="logo">Music <span>Stats</span></a>
 					<!-- <nav>
 						<a href="#">Share</a>
 						<a href="#">Contact</a>
@@ -24,37 +25,17 @@
 				</div>
 			</div>
 			<div class="app-body">
-				<nav class="app-nav">
-					<a href="#" class="app-nav-item app-nav-scrobbles">
-						<div class="icon"></div>
-						<p>Overview</p>
-					</a>
-					<a href="#" class="app-nav-item active app-nav-scrobbles">
-						<div class="icon"></div>
-						<p>Scrobbles</p>
-					</a>
-					<a href="#" class="app-nav-item app-nav-scrobbles">
-						<div class="icon"></div>
-						Artists
-					</a>
-					<a href="#" class="app-nav-item app-nav-scrobbles">
-						<div class="icon"></div>
-						Albums
-					</a>
-					<a href="#" class="app-nav-item app-nav-scrobbles">
-						<div class="icon"></div>
-						Songs
-					</a>
-				</nav>
-				<div class="app-body-header">
-				</div>
-				<div class="app-u-scrobbles-graph">
-					<div class="info">
-						<div class="count" id="u-scrobbles-graph-count"></div>
-						<div class="label">Over 52 Weeks</div>
-					</div>
-					<div class="graph" id="scrobbles-graph"></div>
-				</div>		
+				<header>
+					<h2>Most Played</h2>
+				</header>
+				<div class="app-chart">
+					<div class="app-chart-grid"></div>
+					<ul class="app-chart-grid-labels">
+						<li class="label" id="label-1">60</li>
+						<li class="label" id="label-1">40</li>
+						<li class="label" id="label-1">20</li>					
+					</ul>
+					<div class="app-chart-output" id="app-chart-output"></div>
 				</div>
 			</div>
 		</div>
@@ -62,8 +43,10 @@
 		<!-- Load jQ for plugins -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-		<!-- Use D3 for visualizations -->
+		<!-- Use D3 + DC.js + Crossfilter for visualizations -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+		<script src="js/crossfilter.min.js"></script>
+		<script src="js/dc.js"></script>
 
 		<!-- Get typeface from Typekit-->
 		<script type="text/javascript" src="//use.typekit.net/psm0wvc.js"></script>
