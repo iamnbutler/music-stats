@@ -1,43 +1,55 @@
 // App Variables
 
-$app-bg-color: #FFF;
+$app-bg-color: #29292e;
 
-$app-text-color: #8a95a5;
-$app-text-color-dark: #4e515e;
-$app-secondary-color: #0096FF;
+$app-text-color-white: #FFFFFF;
+$app-text-color: #b6bfc9;
+$app-text-color-dark: #5b5b5e;
+$app-secondary-color: #f0513f;
 
-$app-border-color: #e5e6e8;
+$app-color-gradient-1-1: #f0513f;
+$app-color-gradient-1-2: #8d2055;
+
+$app-border-color: #303038;
+$app-border-em-color: #44484f;
+
+$app-header-height: 70px;
 
 // SW
+
+html {
+	height: 100%;
+	width: 100%;
+}
 
 body {
 	background-color: $app-bg-color;
 	color: $app-text-color;
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.text-feature {
+	color: $app-secondary-color;
 }
 
 // Header
 
 .app-header {
-	$app-header-height: 70px;
 	height: $app-header-height;
-	border-bottom: 1px solid $app-border-color;
-
-	.inner {
-		// width: 1024px;
-		margin: 0 auto;
-		display: flex;
-		@extend .cf; // Clearfix
-	}
+	width: 100%;
+	box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
+	z-index: 9;
 
 	a {
 		float: left;
 	}
 
 	nav {
-		float: right;
 		margin-left: 24px;
 		a {
-			line-height: $app-header-height/2;
+			line-height: $app-header-height;
 			margin: $app-header-height/4 12px;
 			padding: 0 12px;
 			text-transform: uppercase;
@@ -47,27 +59,44 @@ body {
 				background-color: rgba(255,255,255,0.08);
 			}
 		}
-	}
-
-	input {
-		width: 100%;
-		height: $app-header-height/2;
-		margin: $app-header-height/4 12px;
-		border: none;
-		padding: 0px 0px;
-		flex: 1;
-		outline: 0;
-		font-size: 1em;
+		.select-wrap {
+			float: left;
+			margin-right: 60px;
+			text-transform: uppercase;
+			&:first-child {
+				margin-left: 60px;
+			}
+		}
+		label {
+			color: $app-text-color;
+			font-size: 1em;
+			font-weight: bold;
+		}
+		select {
+			height: $app-header-height;
+			width: 140px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 0;
+			border: 0;
+			outline: 0;
+			background-color: $app-bg-color;
+			color: $app-text-color-white;
+			font-size: 1.2em;
+			font-weight: 300;
+			margin-left: 12px;
+		}
 	}
 
 	.logo {
 		line-height: $app-header-height/2;
-		margin: $app-header-height/4 16px $app-header-height/4 0;
-		padding: 0 16px;
+		margin: $app-header-height/4 0;
+		padding: 0 32px;
 		text-transform: uppercase;
 		font-weight: bold;
 		font-size: 1.2em;
-		color: $app-text-color-dark;
+		color: $app-text-color-white;
 		border-right: 1px solid $app-border-color;
 		span {
 			font-weight: 300;
@@ -78,6 +107,16 @@ body {
 // Body
 
 .app-body {
+	position: relative;
+	z-index: 1;
+	header {
+		padding: 70px 36px 50px 162px;
+		h2 {
+			color: $app-text-color-white;
+			font-size: 2.6em;
+			font-weight: 300;
+		}
+	}
 
 	.inner {
 		width: 1024px;
@@ -87,22 +126,89 @@ body {
 	}
 }
 
-.app-chart, .app-info-frame {
-	width: 50%;
-	min-height: 300px;
-}
+
+//
 
 .app-chart {
-	overflow: hidden;
+	position: relative;
+	height: 500px;
+	width: 100%;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	z-index: 1;
+
+	// Chart Grid
+
+	.app-chart-grid {
+		background-image: url("../img/grid.png");
+		background-repeat: repeat;
+		position: absolute;
+		top: 0;
+		left: -80px;
+		height: 336px;
+		min-width: 9400px;
+		border-bottom: 1px solid $app-border-em-color;
+		z-index: 1;
+	}
+
+	.app-chart-output {
+		// TODO: Calculate data range and add top margi dynamically
+		margin-top: 76px;
+		margin-left: 219px;
+		position: relative;
+		z-index: 3;
+		g {
+			position: relative;
+		}
+		rect {
+			fill: url(#g1);
+			rx: 4;
+			ry: 4;
+			filter:url(#dropshadow);
+			&:hover {
+				fill: #fff;
+				fill: url(#g2);
+				cursor: pointer;
+			}
+		}
+		text {
+			position: absolute;
+			top: -20px;
+		}
+	}
+
+	.app-chart-grid-labels {
+		position: absolute;
+		top: 0;
+		left: 82px;
+		z-index: 2;
+		.label {
+			background-color: $app-bg-color;
+			color: $app-text-color-dark;
+			width: 100px;
+			text-align: center;
+			height: 100px;
+			line-height: 100px;
+			border-bottom: 1px solid $app-border-color;
+			&:first-child {
+				margin-top: 1px;
+				height: 101px;
+			}
+			&:nth-child(3) {
+				height: 97px;
+				border: 0;
+			}
+		}
+	}
 }
 
 	// Header
 
 	.app-body-header {
-		padding: 50px 60px;
+		padding: 70px 60px 60px 40px;
 		border-bottom: 1px solid $app-border-color;
 		h3 {
-			font-size: 1.8em;
+			font-size: 2.2em;
 			line-height: 1.3em;
 			color: $app-text-color-dark;
 		}

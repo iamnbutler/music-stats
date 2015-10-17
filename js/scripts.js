@@ -1,110 +1,92 @@
-var DEBUG = false;
-var ACTIVE_USER = 'iamnbutler';
-var LAST_FM = new LastFM({
-    apiKey    : 'eb5004312b5007e85399ab8128cd90ff',
-    apiSecret : '9b23d8f9a695517052683f6b80fe655a',
-    cache     : new LastFMCache()
-});
-var DATASET = [];
-var ARTISTS = [];
-var WIDTH = $("#scrobbles-graph").width();
-var HEIGHT = ($("#scrobbles-graph").height())*2;
-var PADDING = 2;
-
 // Supporting Functions
 
-function addCommas(intNum) {
-  return (intNum + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-// Last.fm API stuff
+// Do stuff
+var height = 230, // height of chart
+    width = 9900,
+    barWidth = 50, // Width of Bar
+    unitWidth = 212, // Width of one grid unit
+    barSpace = unitWidth - barWidth;
+    barMargin = barSpace / 2; // Margin on each side of bar unit
 
-$(document).ready(function() {
-    LAST_FM.library.getArtists({
-       user : ACTIVE_USER 
-    },{
-        success : function (data) {
-            data.artists.artist.forEach(function (a) {
-                if (DEBUG) console.log (a.name + ' was played ' + a.playcount + ' times by ' + ACTIVE_USER);
-                DATASET.push(a.playcount);
-                ARTISTS.push(a.name);
-            });
-            
-            barchart (DATASET, ARTISTS, WIDTH, HEIGHT, PADDING);
-        },
-        error   : function (data) {}
-    });
+var y = d3.scale.linear()
+    .range([height, 0]);
 
-    // Get User info
-    LAST_FM.user.getInfo({
-       user : ACTIVE_USER
-    }, {
-        success : function (user) {
-            $("#user").html(user.user.realname + "'s Profile");
+var chart = d3.select(".app-chart-output")
+    .attr("width", width)
+    .attr("height", height);
 
-            // Get # of scrobbles as a number with commas
-            var scrobbles = user.user.playcount;
-            var scrobblesFormatted = addCommas(user.user.playcount);
-            $("#u-scrobbles-graph-count").html(scrobblesFormatted);
-        },
-        error   : function (user) {}
-    });
+d3.tsv("../data/data.tsv", type, function(error, data) {
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-    // Get User weekly chart
-    LAST_FM.user.getWeeklyChartList({
-       user : ACTIVE_USER
-    }, {
-        success : function (user) {
-            console.log(user.weeklychartlist);
-        },
-        error   : function (user) {}
-    });
+  var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(" + i * barSpace + ",0)"; })
+      .attr("id", function(d,i) { return i })
+      .attr("title", function(d) { return d.title; }) // Append Title
+      .attr("artist", function(d) { return d.artist; }) // Append Artist
+      .attr("album", function(d) { return d.album; }) // Append Album
+      .attr("plays", function(d) { return d.value; }) // Append Value
+
+  bar.append("rect")
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("width", barWidth);
+
+  bar.append("text")
+      .attr("x", (barWidth / 2) - 10)
+      .attr("y", function(d) { return y(d.value) - 18; })
+      .attr("dy", ".75em")
+      .text(function(d) { return d.value; });
+  console.log(data[0]);
+
+  // Get list of artists
+
+  var artists = [];
+  artists = data.map(function(d) { return d.artist }).sort();
+
+  var artists = artists.reduce(function(a,b){   // Remove duplicate artists
+    if (a.indexOf(b) < 0 ) a.push(b);
+    return a;
+  },[]);
+
+  var artistList = d3.select(".artistDropdown");
+  
+  for (var i = 0; i < artists.length; i++) {
+    artistList.append("option")
+      .attr("value", i)
+      .text(artists[i]);
+  }
+
+  // Get list of albums
+
+  var albums = [];
+  albums = data.map(function(d) { return d.album }).sort();
+
+  var albums = albums.reduce(function(a,b){   // Remove duplicate albums
+    if (a.indexOf(b) < 0 ) a.push(b);
+    return a;
+  },[]);
+
+  var albumList = d3.select(".albumDropdown");
+  
+  for (var i = 0; i < albums.length; i++) {
+    albumList.append("option")
+      .attr("value", i)
+      .text(albums[i]);
+  }
+
 });
 
-/**
- * Creates a bar chart from an array of data.
- * @param {Array} data
- * @param {Array} labels
- * @param {Number} width
- * @param {Number} height
- * @param {Number} padding
- * @returns {undefined}
- */
-barchart = function (data, labels, width, height, padding) {
-    var w = width || 500;
-    var h = height || 300;
-    var barPadding = padding || 1;
-    var max = 0;
-    data.forEach(function (value) {
-        if (Number(max) < Number(value)) max = Number(value);
-    });
-    
-    var svg = d3.select("#scrobbles-graph")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-    
-    svg.selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", function(d, i) {
-            return i * (w / data.length);
-        })
-        .attr("y", function(d) {
-            return (h - normalize(d, max, h / 2)) - h / 2;
-        })
-        .attr("width", w / data.length - barPadding)
-        .attr("height", function(d) {
-            return normalize(d, max, h / 2);
-        })
-        .attr("fill", function(d) {
-            return "rgb(255, 255, 255)";
-        });
+function type(d) {
+  d.value = +d.value; // coerce to number
+  return d;
+}
 
-    return;
-};
-
-normalize = function (value, max, range) {
-    return Math.round((value * range) / max);
-};
+$(document).ready(function(){
+  // $(".app-chart-output").addClass('animated pulse');
+});
