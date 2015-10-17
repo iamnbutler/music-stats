@@ -27,7 +27,7 @@ body {
 	color: $app-text-color;
 	height: 100%;
 	width: 100%;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 .text-feature {
@@ -112,9 +112,12 @@ body {
 	header {
 		padding: 70px 36px 50px 162px;
 		h2 {
-			color: $app-text-color-white;
+			color: $app-text-color-dark;
 			font-size: 2.6em;
 			font-weight: 300;
+			span {
+				color: $app-text-color-white;
+			}
 		}
 	}
 
@@ -161,12 +164,11 @@ body {
 			position: relative;
 		}
 		rect {
-			fill: url(#g1);
+			fill: #fff;
 			rx: 4;
 			ry: 4;
 			filter:url(#dropshadow);
 			&:hover {
-				fill: #fff;
 				fill: url(#g2);
 				cursor: pointer;
 			}
@@ -201,18 +203,6 @@ body {
 		}
 	}
 }
-
-	// Header
-
-	.app-body-header {
-		padding: 70px 60px 60px 40px;
-		border-bottom: 1px solid $app-border-color;
-		h3 {
-			font-size: 2.2em;
-			line-height: 1.3em;
-			color: $app-text-color-dark;
-		}
-	}
 
 // Info Frame
 
