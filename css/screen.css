@@ -90,7 +90,7 @@ body {
   color: #b6bfc9;
   height: 100%;
   width: 100%;
-  overflow-x: hidden; }
+  overflow: hidden; }
 
 .text-feature {
   color: #f0513f; }
@@ -155,9 +155,11 @@ body {
   .app-body header {
     padding: 70px 36px 50px 162px; }
     .app-body header h2 {
-      color: #FFFFFF;
+      color: #5b5b5e;
       font-size: 2.6em;
       font-weight: 300; }
+      .app-body header h2 span {
+        color: #FFFFFF; }
   .app-body .inner {
     width: 1024px;
     margin: 0 auto;
@@ -188,12 +190,11 @@ body {
     .app-chart .app-chart-output g {
       position: relative; }
     .app-chart .app-chart-output rect {
-      fill: url(#g1);
+      fill: #fff;
       rx: 4;
       ry: 4;
       filter: url(#dropshadow); }
       .app-chart .app-chart-output rect:hover {
-        fill: #fff;
         fill: url(#g2);
         cursor: pointer; }
     .app-chart .app-chart-output text {
@@ -218,14 +219,6 @@ body {
       .app-chart .app-chart-grid-labels .label:nth-child(3) {
         height: 97px;
         border: 0; }
-
-.app-body-header {
-  padding: 70px 60px 60px 40px;
-  border-bottom: 1px solid #303038; }
-  .app-body-header h3 {
-    font-size: 2.2em;
-    line-height: 1.3em;
-    color: #5b5b5e; }
 
 .app-info-frame {
   margin-left: 40px; }

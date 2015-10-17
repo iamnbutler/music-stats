@@ -1,16 +1,9 @@
-// Supporting Functions
-
-function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
-
 // Do stuff
 var height = 230, // height of chart
     width = 9900,
-    barWidth = 50, // Width of Bar
-    unitWidth = 212, // Width of one grid unit
+    barWidth = 18, // Width of Bar
+    unitWidth = 42, // Width of one grid unit
     barSpace = unitWidth - barWidth;
-    barMargin = barSpace / 2; // Margin on each side of bar unit
 
 var y = d3.scale.linear()
     .range([height, 0]);
@@ -35,7 +28,8 @@ d3.tsv("../data/data.tsv", type, function(error, data) {
   bar.append("rect")
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); })
-      .attr("width", barWidth);
+      .attr("width", barWidth)
+      .attr("style", function(d, i) { return "fill: url(#g-" + i + ")"; });
 
   bar.append("text")
       .attr("x", (barWidth / 2) - 10)
@@ -79,6 +73,48 @@ d3.tsv("../data/data.tsv", type, function(error, data) {
       .attr("value", i)
       .text(albums[i]);
   }
+
+  // Get time added of each song
+  // Get list of albums
+
+  var dates = [];
+  dates = data.map(function(d) { return d.dAdded });
+  playsOrdered = data.map(function(d) { return d.value });
+
+  for (var i = 0; i < dates.length; i++) {
+    var c = Date.parse(dates[i]);
+    z = (((c - 1400000000000)/1000) / 14734120) * (playsOrdered[i] - 8);
+    dates[i] = (Math.floor(z));
+
+    chart.select("defs").append("linearGradient")
+      .attr("id", "g-" + i)
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', 0)
+      .attr('y2', 1)
+      .html(function() {
+        // Define stops
+        var defG1 = '<stop class="stop' + i + '-2" offset="0%"/>';
+        var defG2 = '<stop class="stop' + i + '-1" offset="100%"/>';
+
+        return defG1 + defG2;
+      });
+
+      chart.select("defs").append("style")
+        .attr("type", "text/css")
+        .html(function() {
+          // Define svg gradient variables
+          var stop1 = ".stop" + i + "-1 { stop-color: rgb(" + ( 60 + dates[i]) + ",24,225); stop-opacity: 1; }"
+          var stop2 = ".stop" + i + "-2 { stop-color: rgb(" + ( 120 + dates[i]) + ", 42,84); stop-opacity: 1; }"
+
+          return stop1 + stop2;
+        });
+
+  }
+
+  console.log(dates);
+  console.log(dates[3]);
+  console.log(dates[11]);
 
 });
 
