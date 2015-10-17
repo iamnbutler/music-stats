@@ -172,8 +172,8 @@
 		},
 	"\/js\/crossfilter.min.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/crossfilter.min.js",
 		"outputAbbreviatedPath": "\/js\/min\/crossfilter.min-min.js",
 		"outputPathIsOutsideProject": 0,
@@ -183,8 +183,8 @@
 		},
 	"\/js\/dc.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/dc.js",
 		"outputAbbreviatedPath": "\/js\/min\/dc-min.js",
 		"outputPathIsOutsideProject": 0,
@@ -216,8 +216,8 @@
 		},
 	"\/js\/plugins.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/plugins.js",
 		"outputAbbreviatedPath": "\/js\/min\/plugins-min.js",
 		"outputPathIsOutsideProject": 0,
@@ -227,8 +227,8 @@
 		},
 	"\/js\/scripts.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/scripts.js",
 		"outputAbbreviatedPath": "\/js\/min\/scripts-min.js",
 		"outputPathIsOutsideProject": 0,

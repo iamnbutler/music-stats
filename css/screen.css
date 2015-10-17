@@ -90,7 +90,7 @@ body {
   color: #b6bfc9;
   height: 100%;
   width: 100%;
-  overflow: hidden; }
+  overflow-x: hidden; }
 
 .app-header {
   height: 70px;
@@ -161,6 +161,11 @@ body {
     min-width: 1400px;
     border-bottom: 1px solid #44484f;
     z-index: 1; }
+  .app-chart .app-chart-output {
+    position: relative;
+    z-index: 3; }
+    .app-chart .app-chart-output rect {
+      fill: blue; }
   .app-chart .app-chart-grid-labels {
     position: absolute;
     top: 0;
@@ -169,7 +174,7 @@ body {
     .app-chart .app-chart-grid-labels .label {
       background-color: #29292e;
       color: #5b5b5e;
-      width: 80px;
+      width: 100px;
       text-align: center;
       height: 100px;
       line-height: 100px;

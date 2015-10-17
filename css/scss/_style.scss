@@ -22,7 +22,7 @@ body {
 	color: $app-text-color;
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 // Header
@@ -129,6 +129,14 @@ body {
 		z-index: 1;
 	}
 
+	.app-chart-output {
+		position: relative;
+		z-index: 3;
+		rect {
+			fill: blue;
+		}
+	}
+
 	.app-chart-grid-labels {
 		position: absolute;
 		top: 0;
@@ -137,7 +145,7 @@ body {
 		.label {
 			background-color: $app-bg-color;
 			color: $app-text-color-dark;
-			width: 80px;
+			width: 100px;
 			text-align: center;
 			height: 100px;
 			line-height: 100px;

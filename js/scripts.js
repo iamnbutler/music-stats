@@ -1,133 +1,55 @@
-// Navigation
+var height = 300, // height of chart
+    width = 1400,
+    barWidth = 40, // Width of Bar
+    unitWidth = 162, // Width of one grid unit
+    barSpace = unitWidth - barWidth;
+    barMargin = barSpace / 2; // Margin on each side of bar unit
 
-// $(document).ready(function() {
-//     $('.app-nav-item').click(function(){
-//         $('.app-nav-item').removeClass('active');
-//         $(this).addClass('active');
-//         console.log("1");
-//         return false;
-//     });
-// });
+var y = d3.scale.linear()
+    .range([height, 0]);
 
+var chart = d3.select(".app-chart-output")
+    .attr("width", width)
+    .attr("height", height); // Set the height of chart
 
+d3.csv("../data/data.tsv", function(error, data) {
+    // var plays = [];
+    // plays = data.map(function(d) { return d.plays });
 
-/*
+    // console.log(plays);
 
-// TODO: Sort me
+    y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-var DEBUG = false;
-var ACTIVE_USER = 'iamnbutler';
-var LAST_FM = new LastFM({
-    apiKey    : 'eb5004312b5007e85399ab8128cd90ff',
-    apiSecret : '9b23d8f9a695517052683f6b80fe655a',
-    cache     : new LastFMCache()
+    var barWidth = width / data.length;
+
+    // chart.attr("width", barSpace * data.length); // set the width of chart based of off how many units
+
+    var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+
+  bar.append("rect")
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("width", barWidth - 1);
+
+  bar.append("text")
+      .attr("x", barWidth / 2)
+      .attr("y", function(d) { return y(d.value) + 3; })
+      .attr("dy", ".75em")
+      .text(function(d) { return d.value; });
+
+    // TODO: Calculate age of song in library from date added
+    // TODO: Load values from CSV
+
+        // !WRONG! var parseDate = d3.time.format("%Y-%m-%d,%_%I:%M%_%p").parse;
+
+        console.log(data[0].value);
+
 });
-var DATASET = [];
-var ARTISTS = [];
-var WIDTH = $("#scrobbles-graph").width();
-var HEIGHT = ($("#scrobbles-graph").height())*2;
-var PADDING = 2;
 
-// Supporting Functions
-
-function addCommas(intNum) {
-  return (intNum + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+function type(d) {
+  d.value = +d.value; // coerce to number
+  return d;
 }
-
-// Last.fm API stuff
-
-$(document).ready(function() {
-    LAST_FM.library.getArtists({
-       user : ACTIVE_USER ,
-       limit : 30
-    },{
-        success : function (data) {
-            data.artists.artist.forEach(function (a) {
-                if (DEBUG) console.log (a.name + ' was played ' + a.playcount + ' times by ' + ACTIVE_USER);
-                DATASET.push(a.playcount);
-                ARTISTS.push(a.name);
-            });
-            
-            console.log(data.artists);
-
-            barchart (DATASET, ARTISTS, WIDTH, HEIGHT, PADDING);
-        },
-        error   : function (data) {}
-    });
-
-    // Get User info
-    LAST_FM.user.getInfo({
-       user : ACTIVE_USER
-    }, {
-        success : function (user) {
-            $("#user").html(user.user.realname + "'s Profile");
-
-            // Get # of scrobbles as a number with commas
-            var scrobbles = user.user.playcount;
-            var scrobblesFormatted = addCommas(user.user.playcount);
-            $("#u-scrobbles-graph-count").html(scrobblesFormatted);
-        },
-        error   : function (user) {}
-    });
-
-    // Get User weekly chart
-    LAST_FM.user.getWeeklyChartList({
-       user : ACTIVE_USER
-    }, {
-        success : function (user) {
-            console.log(user.weeklychartlist);
-        },
-        error   : function (user) {}
-    });
-
-    // Get User weekly chart
-    LAST_FM.artist.getInfo({
-       artist : 'Cher'
-    }, {
-        success : function (user) {
-            console.log(artist);
-        },
-        error   : function (user) {}
-    });
-});
-
-barchart = function (data, labels, width, height, padding) {
-    var w = width || 500;
-    var h = height || 300;
-    var barPadding = padding || 1;
-    var max = 0;
-    data.reverse().forEach(function (value) {
-        if (Number(max) < Number(value)) max = Number(value);
-    });
-    
-    var svg = d3.select("#scrobbles-graph")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-    
-    svg.selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", function(d, i) {
-            return i * (w / data.length);
-        })
-        .attr("y", function(d) {
-            return (h - normalize(d, max, h / 2)) - h / 2;
-        })
-        .attr("width", w / data.length - barPadding)
-        .attr("height", function(d) {
-            return normalize(d, max, h / 2);
-        })
-        .attr("fill", function(d) {
-            return "rgb(255, 255, 255)";
-        });
-
-    return;
-};
-
-normalize = function (value, max, range) {
-    return Math.round((value * range) / max);
-};
-
-*/
