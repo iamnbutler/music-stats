@@ -130,6 +130,9 @@ body {
 	}
 
 	.app-chart-output {
+		// TODO: Calculate data range and add top margi dynamically
+		margin-top: 70px;
+		margin-left: 240px;
 		position: relative;
 		z-index: 3;
 		rect {

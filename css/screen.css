@@ -162,6 +162,8 @@ body {
     border-bottom: 1px solid #44484f;
     z-index: 1; }
   .app-chart .app-chart-output {
+    margin-top: 70px;
+    margin-left: 240px;
     position: relative;
     z-index: 3; }
     .app-chart .app-chart-output rect {

@@ -1,30 +1,19 @@
-var height = 300, // height of chart
-    width = 1400,
-    barWidth = 40, // Width of Bar
-    unitWidth = 162, // Width of one grid unit
-    barSpace = unitWidth - barWidth;
-    barMargin = barSpace / 2; // Margin on each side of bar unit
+var width = 960,
+    height = 230;
 
 var y = d3.scale.linear()
     .range([height, 0]);
 
 var chart = d3.select(".app-chart-output")
     .attr("width", width)
-    .attr("height", height); // Set the height of chart
+    .attr("height", height);
 
-d3.csv("../data/data.tsv", function(error, data) {
-    // var plays = [];
-    // plays = data.map(function(d) { return d.plays });
+d3.tsv("../data/data.tsv", type, function(error, data) {
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-    // console.log(plays);
+  var barWidth = width / data.length;
 
-    y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-    var barWidth = width / data.length;
-
-    // chart.attr("width", barSpace * data.length); // set the width of chart based of off how many units
-
-    var bar = chart.selectAll("g")
+  var bar = chart.selectAll("g")
       .data(data)
     .enter().append("g")
       .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
@@ -39,14 +28,6 @@ d3.csv("../data/data.tsv", function(error, data) {
       .attr("y", function(d) { return y(d.value) + 3; })
       .attr("dy", ".75em")
       .text(function(d) { return d.value; });
-
-    // TODO: Calculate age of song in library from date added
-    // TODO: Load values from CSV
-
-        // !WRONG! var parseDate = d3.time.format("%Y-%m-%d,%_%I:%M%_%p").parse;
-
-        console.log(data[0].value);
-
 });
 
 function type(d) {
