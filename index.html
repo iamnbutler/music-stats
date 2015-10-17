@@ -10,6 +10,7 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 		<link rel="stylesheet" href="css/screen.css">
+		<link rel="stylesheet" href="css/animate.css">
 		<!-- <link rel="icon" href="/favicon.ico"> -->
 
 	</head>
@@ -18,10 +19,29 @@
 			<div class="app-header">
 				<div class="inner">
 					<a href="#" class="logo">Music <span>Stats</span></a>
-					<!-- <nav>
-						<a href="#">Share</a>
-						<a href="#">Contact</a>
-					</nav> -->
+					<nav>
+						<div class="select-wrap">
+							<label for="">Sort</label>
+							<select name="sortOrder" id="sortOrder" class="sortOrder">
+								<option value="allArtists">Most Plays</option>
+								<option value="allArtists">Least Plays</option>
+								<option value="allArtists">Recently Added</option>
+								<option value="allArtists">Oldest</option>
+							</select>
+						</div>
+						<div class="select-wrap">
+							<label for="">Artist</label>
+							<select name="artistDropdown" id="" class="artistDropdown">
+								<option value="allArtists">All Artists</option>
+							</select>
+						</div>
+						<div class="select-wrap">
+							<label for="">Album</label>
+							<select name="albumDropdown" id="" class="albumDropdown">
+								<option value="allArtists">All Albums</option>
+							</select>
+						</div>
+					</nav>
 				</div>
 			</div>
 			<div class="app-body">
@@ -31,12 +51,42 @@
 				<div class="app-chart">
 					<div class="app-chart-grid"></div>
 					<ul class="app-chart-grid-labels">
-						<li class="label" id="label-1">60</li>
-						<li class="label" id="label-1">40</li>
-						<li class="label" id="label-1">20</li>					
+						<li class="label" id="label-1">50</li>
+						<li class="label" id="label-1">30</li>
+						<li class="label" id="label-1">10</li>					
 					</ul>
-					<svg class="app-chart-output" id="app-chart-output"></svg>
+					<svg class="app-chart-output" id="app-chart-output">
+						<defs>
+							<!-- Define SVG drop shadow filter -->
+							<filter id="dropshadow" height="120%">
+							  <feGaussianBlur in="SourceAlpha" stdDeviation="4"/> <!-- stdDeviation is how much to blur -->
+							  <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+							  <feComponentTransfer xmlns="http://www.w3.org/2000/svg">
+						        <feFuncA type="linear" slope="0.2"/>
+						      </feComponentTransfer>
+							  <feMerge> 
+							    <feMergeNode/> <!-- this contains the offset blurred image -->
+							    <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+							  </feMerge>
+							</filter>
+							<linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+						        <stop class="stop1-2" offset="0%"/>
+]						        <stop class="stop1-1" offset="100%"/>
+						    </linearGradient>
+							<linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+						        <stop class="stop2-2" offset="0%"/>
+]						        <stop class="stop2-1" offset="100%"/>
+						    </linearGradient>
+						      <style type="text/css"><![CDATA[
+						        .stop1-1 { stop-color: #f0513f; stop-opacity: 0.8; }
+						        .stop1-2 { stop-color: #8d2055; stop-opacity: 0.8; }
+						        .stop2-1 { stop-color: #f0513f; stop-opacity: 1; }
+						        .stop2-2 { stop-color: #8d2055; stop-opacity: 1; }
+						      ]]></style>
+						</defs>
+					</svg>
 				</div>
+
 				<div class="app-data-table" id="data-table"></div>
 			</div>
 		</div>
