@@ -131,6 +131,7 @@ $(document).ready(function(){
   // Hide overlay on clicking outside modal
   var overlay = $(".app-overlay");
   var modal = $(".app-overlay-inner");
+  var embed = $("#modal-video-embed");
 
   overlay.click(function(){
     modal.addClass('bounceOutUp');
@@ -180,11 +181,14 @@ $(document).ready(function(){
     var q = query;
     var request = gapi.client.youtube.search.list({
                q: q,
-            part: 'snippet'                        
+            part: 'snippet',
+            maxResults: 1                        
     });
     request.execute(function(response) {
-            var str = JSON.stringify(response.result);
-            console.log(str);
+            var videoId = response.result.items[0].id.videoId
+            var embedHtml = '<iframe width="853" height="480" src="https://www.youtube.com/embed/' + videoId +'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+            console.log(embedHtml);
+            embed.html(embedHtml);
     });
   }
 
