@@ -45,6 +45,19 @@
 				</div>
 			</div>
 			<div class="app-body">
+				<div class="app-overlay animated">
+				</div>
+				<div class="app-overlay-inner animated">
+					<div class="modal-video">
+						<iframe width="853" height="480" src="https://www.youtube.com/embed/ip4Q1pbrYDg?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<div class="modal-info">
+						<header>
+							<h3 id="modal-i-title">Title</h3>
+							<p id="modal-i-plays">42 Plays</p>
+						</header>
+					</div>
+				</div>
 				<header>
 					<h2><span>Most played</span> songs from <span>all artists</span> on <span>all albums</span></h2>
 				</header>
@@ -72,8 +85,6 @@
 						</defs>
 					</svg>
 				</div>
-
-				<div class="app-data-table" id="data-table"></div>
 			</div>
 		</div>
 
@@ -90,6 +101,7 @@
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 		
 		<!-- Load extra plugins -->
+		<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"> </script>
 		<script src="js/plugins.js"></script>
 
 		<!-- Where the magic happens -->
