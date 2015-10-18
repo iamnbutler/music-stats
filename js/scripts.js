@@ -150,6 +150,7 @@ $(document).ready(function(){
   function overlayCleanup() { 
     overlay.hide();  // Hide overlay for next use
     modal.hide();
+    embed.html(' ');
 
     modal.removeClass('bounceOutUp'); // Remove animated classes after hidden
     overlay.removeClass('fadeOut');
