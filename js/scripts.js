@@ -12,7 +12,7 @@ var chart = d3.select(".app-chart-output")
     .attr("width", width)
     .attr("height", height);
 
-d3.tsv("../data/data.tsv", type, function(error, data) {
+d3.tsv("https://dl.dropboxusercontent.com/u/68882376/Files/data.tsv", type, function(error, data) {
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   var bar = chart.selectAll("g")
