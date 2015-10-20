@@ -1,18 +1,19 @@
 // Do stuff
-var height = 230, // height of chart
+var height = 358, // height of chart
     width = 9900,
-    barWidth = 24, // Width of Bar
-    unitWidth = 54, // Width of one grid unit
+    barWidth = 30, // Width of Bar
+    unitWidth = 76, // Width of one grid unit
     barSpace = unitWidth - barWidth;
 
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var chart = d3.select(".app-chart-output")
-    .attr("width", width)
-    .attr("height", height);
+d3.tsv("data/data.tsv", type, function(error, data) {
 
-d3.tsv("https://dl.dropboxusercontent.com/u/68882376/Files/data.tsv", type, function(error, data) {
+  var chart = d3.select(".app-chart-output")
+    .attr("width", function(d) { return (data.length * barSpace) + 400; })
+    .attr("height", height);
+  
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   var bar = chart.selectAll("g")
@@ -32,11 +33,12 @@ d3.tsv("https://dl.dropboxusercontent.com/u/68882376/Files/data.tsv", type, func
       .attr("width", barWidth)
       .attr("style", function(d, i) { return "fill: url(#g-" + i + ")"; });
 
-  bar.append("text")
-      .attr("x", (barWidth / 2) - 10)
-      .attr("y", function(d) { return y(d.value) - 18; })
-      .attr("dy", ".75em")
-      .text(function(d) { return d.value; });
+  // // Chart labels
+  // bar.append("text")
+  //     .attr("x", (barWidth / 2) - 10)
+  //     .attr("y", function(d) { return y(d.value) - 18; })
+  //     .attr("dy", ".75em")
+  //     .text(function(d) { return d.value; });
 
   // Get list of artists
 
@@ -75,17 +77,18 @@ d3.tsv("https://dl.dropboxusercontent.com/u/68882376/Files/data.tsv", type, func
   }
 
   // Get time added of each song
-  // Get list of albums
 
   var dates = [];
   dates = data.map(function(d) { return d.dAdded });
   playsOrdered = data.map(function(d) { return d.value });
 
   for (var i = 0; i < dates.length; i++) {
+    // Create "hotness" ratio
     var c = Date.parse(dates[i]);
     z = (((c - 1400000000000)/1000) / 14734120) * (playsOrdered[i] - 8);
     dates[i] = (Math.floor(z));
 
+    // Generate gradients for each bar
     chart.select("defs").append("linearGradient")
       .attr("id", "g-" + i)
       .attr('x1', 0)
@@ -100,17 +103,39 @@ d3.tsv("https://dl.dropboxusercontent.com/u/68882376/Files/data.tsv", type, func
         return defG1 + defG2;
       });
 
-      chart.select("defs").append("style")
-        .attr("type", "text/css")
-        .html(function() {
-          // Define svg gradient variables
-          var stop1 = ".stop" + i + "-1 { stop-color: rgb(" + ( 60 + dates[i]) + ",24,225); stop-opacity: 1; }";
-          var stop2 = ".stop" + i + "-2 { stop-color: rgb(" + ( 120 + dates[i]) + ", 42,84); stop-opacity: 1; }";
+    chart.select("defs").append("style")
+      .attr("type", "text/css")
+      .html(function() {
+        // Define svg gradient variables
+        var stop1 = ".stop" + i + "-1 { stop-color: rgb(" + ( 60 + dates[i]) + ",24,225); stop-opacity: 1; }";
+        var stop2 = ".stop" + i + "-2 { stop-color: rgb(" + ( 120 + dates[i]) + ", 42,84); stop-opacity: 1; }";
 
-          return stop1 + stop2;
-        });
+        return stop1 + stop2;
+      });
 
   }
+
+  // Order chart by selected option
+
+  function getOrder(sel) {
+    // Store the value of the sortOrder select
+    var order = document.getElementById('sortOrder').value;
+    $("#header-play-order").html(order);
+  }
+
+  function sortByDateAscending(a, b) {
+    // Dates will be cast to numbers automagically:
+    return a.value - b.value;
+  }
+
+  $( ".sortOrder" ).change(function() {
+    // Run when sortOrder select changes
+    // TODO: Reorder chart when select changes
+    getOrder();
+    data = data.sort(sortByDateAscending);
+    chart.selectAll(".bar")
+        .sort(function(a, b) { return b.value - a.value; });
+  });
 
 });
 
@@ -121,12 +146,14 @@ function type(d) {
 
 $(document).ready(function(){
   // Scroll Horizontally
-
-  // for scrollbar to work horizontally instead
   $(".app-chart").mousewheel(function(event, delta) {
     this.scrollLeft -= (delta * 30);
     event.preventDefault();
   });   
+
+  // ==========
+  // Overlay
+  // ==========
 
   // Hide overlay on clicking outside modal
   var overlay = $(".app-overlay");
@@ -171,7 +198,7 @@ $(document).ready(function(){
     ytKeyWordsearch(query);
   }
 
-//-- YT: Search for song title
+  //-- YT: Search for song title
   function ytKeyWordsearch(query){
     gapi.client.setApiKey('AIzaSyCcoMFVU1juK4tpcn3OhQEb9QUO9rZVVFA');
     gapi.client.load('youtube', 'v3', function() {
@@ -193,9 +220,8 @@ $(document).ready(function(){
     });
   }
 
-//-- YT: Use videoId to create embed link
+  //-- YT: Use videoId to create embed link
 
-  // TODO: Click overlay for individual songs
   // TODO: Center modal properly
   $("#app-chart-output").on( 'click', '.bar', function(){
     var node = $(this);
@@ -203,7 +229,7 @@ $(document).ready(function(){
     // Populate modal content
     populateModal(node);
     overlayShow();
-    $(this).append('<div class="yay">zzz</div>');
   });
+
 
 });

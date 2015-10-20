@@ -96,10 +96,11 @@ body {
   color: #f0513f; }
 
 .app-header {
+  position: relative;
   height: 70px;
   width: 100%;
   box-shadow: 2px 0px 38px rgba(0, 0, 0, 0.4);
-  z-index: 9; }
+  z-index: 99; }
   .app-header a {
     float: left; }
   .app-header nav {
@@ -137,6 +138,8 @@ body {
       font-size: 1.2em;
       font-weight: 300;
       margin-left: 12px; }
+      .app-header nav select:disabled, .app-header nav select.disabled {
+        color: #5b5b5e; }
   .app-header .logo {
     line-height: 35px;
     margin: 17.5px 0;
@@ -151,9 +154,13 @@ body {
 
 .app-body {
   position: relative;
+  top: 0;
+  left: 0;
   z-index: 1; }
   .app-body > header {
-    padding: 70px 36px 50px 82px; }
+    position: relative;
+    padding: 56px 36px 50px 182px;
+    z-index: 8; }
     .app-body > header h2 {
       color: #5b5b5e;
       font-size: 2.6em;
@@ -167,23 +174,14 @@ body {
 
 .app-chart {
   position: relative;
-  height: 500px;
+  top: 0;
+  height: 600px;
   width: 100%;
   overflow-y: hidden;
   overflow-x: scroll;
-  z-index: 1; }
-  .app-chart .app-chart-grid {
-    background-image: url("../img/grid.png");
-    background-repeat: repeat;
-    position: absolute;
-    top: 0;
-    left: -80px;
-    height: 336px;
-    min-width: 9400px;
-    border-bottom: 1px solid #44484f;
-    z-index: 1; }
+  z-index: 2; }
   .app-chart .app-chart-output {
-    margin-top: 76px;
+    margin-top: 70px;
     margin-left: 219px;
     position: relative;
     z-index: 3; }
@@ -200,25 +198,38 @@ body {
     .app-chart .app-chart-output text {
       position: absolute;
       top: -20px; }
-  .app-chart .app-chart-grid-labels {
+
+.app-chart-grid-wrap {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  height: 636px;
+  width: 100%;
+  z-index: 1; }
+  .app-chart-grid-wrap .app-chart-grid {
+    background-image: url("../img/grid.png");
+    background-repeat: repeat;
+    position: absolute;
+    top: 0;
+    left: -80px;
+    height: 636px;
+    min-width: 9400px;
+    border-bottom: 1px solid #44484f;
+    z-index: 1; }
+  .app-chart-grid-wrap .app-chart-grid-labels {
     position: absolute;
     top: 0;
     left: 82px;
     z-index: 2; }
-    .app-chart .app-chart-grid-labels .label {
+    .app-chart-grid-wrap .app-chart-grid-labels .label {
       background-color: #29292e;
       color: #5b5b5e;
       width: 100px;
       text-align: center;
-      height: 100px;
-      line-height: 100px;
-      border-bottom: 1px solid #303038; }
-      .app-chart .app-chart-grid-labels .label:first-child {
-        margin-top: 1px;
-        height: 101px; }
-      .app-chart .app-chart-grid-labels .label:nth-child(3) {
-        height: 97px;
-        border: 0; }
+      height: 40px;
+      margin: 30px 0 30px 0;
+      line-height: 40px;
+      -webkit-margin-collapse: separate; }
 
 .app-info-frame {
   margin-left: 40px; }

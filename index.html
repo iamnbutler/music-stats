@@ -23,21 +23,22 @@
 						<div class="select-wrap">
 							<label for="">Sort</label>
 							<select name="sortOrder" id="sortOrder" class="sortOrder">
-								<option value="allArtists">Most Plays</option>
-								<option value="allArtists">Least Plays</option>
-								<option value="allArtists">Recently Added</option>
-								<option value="allArtists">Oldest</option>
+								<option value="Most played">Most Plays</option>
+								<option value="Least played">Least Plays</option>
+								<option value="Ordered">Song Title</option>
+								<option value="Newest">Newest Tracks</option>
+								<option value="Oldest">Oldest Tracks</option>
 							</select>
 						</div>
 						<div class="select-wrap">
 							<label for="">Artist</label>
-							<select name="artistDropdown" id="" class="artistDropdown">
+							<select disabled name="artistDropdown" id="" class="artistDropdown">
 								<option value="allArtists">All Artists</option>
 							</select>
 						</div>
 						<div class="select-wrap">
 							<label for="">Album</label>
-							<select name="albumDropdown" id="" class="albumDropdown">
+							<select disabled name="albumDropdown" id="" class="albumDropdown">
 								<option value="allArtists">All Albums</option>
 							</select>
 						</div>
@@ -56,16 +57,7 @@
 						</header>
 					</div>
 				</div>
-				<header>
-					<h2><span>Most played</span> songs from <span>all artists</span> on <span>all albums</span></h2>
-				</header>
 				<div class="app-chart">
-					<div class="app-chart-grid"></div>
-					<ul class="app-chart-grid-labels">
-						<li class="label" id="label-1">50</li>
-						<li class="label" id="label-1">30</li>
-						<li class="label" id="label-1">10</li>					
-					</ul>
 					<svg class="app-chart-output" id="app-chart-output">
 						<defs>
 							<!-- Define SVG drop shadow filter -->
@@ -82,6 +74,17 @@
 							</filter>
 						</defs>
 					</svg>
+				</div>
+				<div class="app-chart-grid-wrap">
+					<div class="app-chart-grid"></div>
+					<ul class="app-chart-grid-labels">
+						<li class="label" id="label-6">75</li>
+						<li class="label" id="label-5">60</li>
+						<li class="label" id="label-4">45</li>
+						<li class="label" id="label-3">30</li>
+						<li class="label" id="label-2">15</li>
+						<li class="label" id="label-1">00</li>						
+					</ul>
 				</div>
 			</div>
 		</div>

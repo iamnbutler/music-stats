@@ -37,10 +37,11 @@ body {
 // Header
 
 .app-header {
+	position: relative;
 	height: $app-header-height;
 	width: 100%;
 	box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
-	z-index: 9;
+	z-index: 99;
 
 	a {
 		float: left;
@@ -86,6 +87,9 @@ body {
 			font-size: 1.2em;
 			font-weight: 300;
 			margin-left: 12px;
+			&:disabled, &.disabled {
+				color: $app-text-color-dark;
+			}
 		}
 	}
 
@@ -108,9 +112,13 @@ body {
 
 .app-body {
 	position: relative;
+	top: 0;
+	left: 0;
 	z-index: 1;
 	> header {
-		padding: 70px 36px 50px 82px;
+		position: relative;
+		padding: 56px 36px 50px 182px;
+		z-index: 8;
 		h2 {
 			color: $app-text-color-dark;
 			font-size: 2.6em;
@@ -134,29 +142,18 @@ body {
 
 .app-chart {
 	position: relative;
-	height: 500px;
+	top: 0;
+	height: 600px;
 	width: 100%;
 	overflow-y: hidden;
 	overflow-x: scroll;
-	z-index: 1;
+	z-index: 2;
 
 	// Chart Grid
 
-	.app-chart-grid {
-		background-image: url("../img/grid.png");
-		background-repeat: repeat;
-		position: absolute;
-		top: 0;
-		left: -80px;
-		height: 336px;
-		min-width: 9400px;
-		border-bottom: 1px solid $app-border-em-color;
-		z-index: 1;
-	}
-
 	.app-chart-output {
 		// TODO: Calculate data range and add top margi dynamically
-		margin-top: 76px;
+		margin-top: 70px;
 		margin-left: 219px;
 		position: relative;
 		z-index: 3;
@@ -178,7 +175,26 @@ body {
 			top: -20px;
 		}
 	}
+}
 
+.app-chart-grid-wrap {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	height: 636px;
+	width: 100%;
+	z-index: 1;
+	.app-chart-grid {
+		background-image: url("../img/grid.png");
+		background-repeat: repeat;
+		position: absolute;
+		top: 0;
+		left: -80px;
+		height: 636px;
+		min-width: 9400px;
+		border-bottom: 1px solid $app-border-em-color;
+		z-index: 1;
+	}
 	.app-chart-grid-labels {
 		position: absolute;
 		top: 0;
@@ -189,17 +205,10 @@ body {
 			color: $app-text-color-dark;
 			width: 100px;
 			text-align: center;
-			height: 100px;
-			line-height: 100px;
-			border-bottom: 1px solid $app-border-color;
-			&:first-child {
-				margin-top: 1px;
-				height: 101px;
-			}
-			&:nth-child(3) {
-				height: 97px;
-				border: 0;
-			}
+			height: 40px;
+			margin: 30px 0 30px 0;
+			line-height: 40px;
+			-webkit-margin-collapse: separate;
 		}
 	}
 }
