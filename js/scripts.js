@@ -12,6 +12,8 @@ var y = d3.scale.linear()
 // Get Data
 // ==========
 
+function buildChart(){
+
 d3.tsv("data/data.tsv", type, function(error, data) {
 
   var chart = d3.select(".app-chart-output")
@@ -61,7 +63,6 @@ d3.tsv("data/data.tsv", type, function(error, data) {
     title = node.attr("title");
     pos = node.position();
     posLeft = parseInt(pos.left) + 100;
-    console.log(posLeft);
 
     var chartLabel = $('<div class="chart-label" id="label' + id + '" style="left: ' + posLeft + 'px">' + title + '</div>');
 
@@ -158,6 +159,8 @@ d3.tsv("data/data.tsv", type, function(error, data) {
   }
 
 });
+
+}
 
 function type(d) {
   d.value = +d.value; // coerce to number
@@ -285,5 +288,33 @@ $(document).ready(function(){
     $("#nux").addClass('animated bounceOutUp');
     $(".nux-bg").addClass('animated fadeOut');
   });
+
+  // ==========
+  // Filter
+  // ==========
+
+  $("#filter").hover(function(){
+    $(this).css('opacity', '1');
+  }, function(){
+    $(this).css('opacity', '0.4');
+  });
+
+  $('#f-bar-w').on('keyup', function() {
+    val = $(this).val();
+    barWidth = val;
+  });
+
+  $('#f-bar-s').on('keyup', function() {
+    val = $(this).val();
+    barSpace = val;
+  });
+
+  $('#build').click(function(){
+    console.log('go');
+    buildChart();
+    return false;
+  });
+
+
 
 });

@@ -119,6 +119,46 @@ body {
 	}
 }
 
+// Filter
+
+.app-filter {
+	opacity: 0.4;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background-color: $app-bg-color;
+	width: 200px;
+	box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
+	z-index: 39;
+	input {
+		outline: 0;
+		display: block;
+		margin: 5%;
+		width: 90%;
+		text-indent: 12px;
+		height: 36px;
+		color: $app-text-color;
+		background-color: $app-bg-color;
+		border: 1px solid $app-border-color;
+		box-shadow: inset 1px 1px 6px rgba(0,0,0,0.4);
+	}
+	h4 {
+		padding: 12px 16px;
+		padding-bottom: 4px;
+		font-weight: bold;
+		color: $app-text-color-white;
+	}
+	a {
+		display: block;
+		width: 100%;
+		padding: 12px 16px;
+		text-align: center;
+		font-weight: bold;
+		border-top: 1px solid $app-border-color;
+		color: $app-text-color-white;
+	}
+}
+
 // Body
 
 .app-body {
