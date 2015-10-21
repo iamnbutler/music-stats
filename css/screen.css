@@ -52,6 +52,9 @@ a:hover, a:active {
   color: #fff;
   text-shadow: none; }
 
+a:visited {
+  color: inherit; }
+
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
@@ -59,7 +62,7 @@ a:hover, a:active {
   box-sizing: border-box; }
 
 /* Contain floats. */
-.cf:after, .app-body .inner:after {
+.cf:after, .app-overlay-inner:after {
   content: ' ';
   display: block;
   clear: both; }
@@ -92,16 +95,37 @@ body {
   width: 100%;
   overflow: hidden; }
 
+::-webkit-scrollbar {
+  display: none; }
+
 .text-feature {
   color: #f0513f; }
 
 .app-header {
+  position: absolute;
+  top: 0;
+  right: 0;
   height: 70px;
-  width: 100%;
+  background-color: #29292e;
+  width: 300px;
   box-shadow: 2px 0px 38px rgba(0, 0, 0, 0.4);
-  z-index: 9; }
+  z-index: 39; }
+  .app-header #close {
+    display: none;
+    float: right;
+    line-height: 70px;
+    width: 70px;
+    text-align: center;
+    font-size: 2.2em;
+    outline: 0; }
+    .app-header #close:hover {
+      background-color: #2b2b31; }
+    .app-header #close:active {
+      outline: none;
+      outline: 0; }
   .app-header a {
-    float: left; }
+    float: left;
+    outline: 0; }
   .app-header nav {
     margin-left: 24px; }
     .app-header nav a {
@@ -113,16 +137,6 @@ body {
       font-size: 0.8em; }
       .app-header nav a:hover {
         background-color: rgba(255, 255, 255, 0.08); }
-    .app-header nav .select-wrap {
-      float: left;
-      margin-right: 60px;
-      text-transform: uppercase; }
-      .app-header nav .select-wrap:first-child {
-        margin-left: 60px; }
-    .app-header nav label {
-      color: #b6bfc9;
-      font-size: 1em;
-      font-weight: bold; }
     .app-header nav select {
       height: 70px;
       width: 140px;
@@ -137,6 +151,8 @@ body {
       font-size: 1.2em;
       font-weight: 300;
       margin-left: 12px; }
+      .app-header nav select:disabled, .app-header nav select.disabled {
+        color: #5b5b5e; }
   .app-header .logo {
     line-height: 35px;
     margin: 17.5px 0;
@@ -144,51 +160,48 @@ body {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1.2em;
-    color: #FFFFFF;
-    border-right: 1px solid #303038; }
+    color: #FFFFFF; }
     .app-header .logo span {
       font-weight: 300; }
 
 .app-body {
-  position: relative;
+  position: absolute;
+  background-image: url("../img/grid.png");
+  background-repeat: repeat;
+  background-position: bottom left;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1; }
-  .app-body header {
-    padding: 70px 36px 50px 162px; }
-    .app-body header h2 {
+  .app-body > header {
+    position: relative;
+    padding: 56px 36px 50px 182px;
+    z-index: 8; }
+    .app-body > header h2 {
       color: #5b5b5e;
       font-size: 2.6em;
       font-weight: 300; }
-      .app-body header h2 span {
+      .app-body > header h2 span {
         color: #FFFFFF; }
-  .app-body .inner {
-    width: 1024px;
-    margin: 0 auto;
-    display: flex; }
 
 .app-chart {
   position: relative;
-  height: 500px;
+  top: 0;
+  height: 100%;
   width: 100%;
   overflow-y: hidden;
-  overflow-x: scroll;
-  z-index: 1; }
-  .app-chart .app-chart-grid {
-    background-image: url("../img/grid.png");
-    background-repeat: repeat;
-    position: absolute;
-    top: 0;
-    left: -80px;
-    height: 336px;
-    min-width: 9400px;
-    border-bottom: 1px solid #44484f;
-    z-index: 1; }
+  z-index: 7; }
   .app-chart .app-chart-output {
-    margin-top: 76px;
-    margin-left: 219px;
-    position: relative;
-    z-index: 3; }
+    bottom: 0px;
+    left: 130px;
+    position: absolute;
+    z-index: 8; }
     .app-chart .app-chart-output g {
-      position: relative; }
+      position: relative;
+      opacity: 0.86; }
+      .app-chart .app-chart-output g:hover {
+        opacity: 1; }
     .app-chart .app-chart-output rect {
       fill: #fff;
       rx: 4;
@@ -198,63 +211,163 @@ body {
         fill: url(#g2);
         cursor: pointer; }
     .app-chart .app-chart-output text {
-      position: absolute;
-      top: -20px; }
-  .app-chart .app-chart-grid-labels {
+      width: 80px;
+      fill: #FFFFFF; }
+
+.app-chart-grid-wrap {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1; }
+  .app-chart-grid-wrap .app-chart-grid-labels {
     position: absolute;
-    top: 0;
-    left: 82px;
+    bottom: 50px;
+    left: 0px;
     z-index: 2; }
-    .app-chart .app-chart-grid-labels .label {
-      background-color: #29292e;
+    .app-chart-grid-wrap .app-chart-grid-labels .label {
       color: #5b5b5e;
-      width: 100px;
+      width: 99px;
       text-align: center;
-      height: 100px;
-      line-height: 100px;
+      height: 40px;
+      margin: 30px 0 30px 0;
+      line-height: 40px;
+      -webkit-margin-collapse: separate; }
+
+.app-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 19;
+  background-color: rgba(0, 0, 0, 0.3); }
+
+.app-overlay-inner {
+  position: absolute;
+  right: 0px;
+  top: 90px;
+  width: 300px;
+  z-index: 29; }
+  .app-overlay-inner .modal-video {
+    display: none;
+    position: relative;
+    left: 0px;
+    width: 300px;
+    height: 169px;
+    box-shadow: 2px 0px 38px rgba(0, 0, 0, 0.4);
+    background-color: #29292e;
+    background-image: url("../img/loader.gif");
+    background-position: center center;
+    background-repeat: no-repeat; }
+  .app-overlay-inner .modal-info {
+    display: none;
+    float: left;
+    width: 300px;
+    margin-top: 20px;
+    background-color: #29292e;
+    box-shadow: 2px 0px 38px rgba(0, 0, 0, 0.4); }
+    .app-overlay-inner .modal-info > header {
+      padding: 16px;
       border-bottom: 1px solid #303038; }
-      .app-chart .app-chart-grid-labels .label:first-child {
-        margin-top: 1px;
-        height: 101px; }
-      .app-chart .app-chart-grid-labels .label:nth-child(3) {
-        height: 97px;
+      .app-overlay-inner .modal-info > header h3 {
+        font-size: 1.6em;
+        color: #FFFFFF;
+        line-height: 1.3;
+        margin-bottom: 4px; }
+      .app-overlay-inner .modal-info > header #modal-i-artist {
+        text-transform: uppercase;
+        color: #5b5b5e;
+        font-weight: bold;
+        font-size: 0.9em; }
+      .app-overlay-inner .modal-info > header p#modal-i-plays {
+        text-transform: uppercase;
+        color: #5b5b5e;
+        font-weight: bold;
+        font-size: 0.9em; }
+    .app-overlay-inner .modal-info > .body table, .app-overlay-inner .modal-info > .body tr {
+      width: 100%; }
+    .app-overlay-inner .modal-info > .body tr {
+      display: block;
+      padding: 12px 16px;
+      border-bottom: 1px solid #303038;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; }
+      .app-overlay-inner .modal-info > .body tr:last-child {
         border: 0; }
-
-.app-info-frame {
-  margin-left: 40px; }
-
-.app-i-headline {
-  text-transform: uppercase;
-  font-size: 1.8em;
-  font-weight: 300; }
-
-.app-i-subhead {
-  color: #f0513f;
-  font-size: 0.8em;
-  margin-bottom: 12px; }
-
-.app-i-desc {
-  font-size: 0.8em;
-  line-height: 1.4;
-  max-width: 340px; }
-
-.app-u-scrobbles-graph {
-  height: 180px;
-  background-color: #f0513f;
-  color: white;
-  display: flex; }
-  .app-u-scrobbles-graph .info {
-    padding: 40px 30px 40px 60px; }
-    .app-u-scrobbles-graph .info .count {
-      font-size: 2.4em;
-      line-height: 1.2;
-      font-weight: 300; }
-    .app-u-scrobbles-graph .info .label {
-      text-transform: uppercase;
-      font-size: 0.9em;
+    .app-overlay-inner .modal-info > .body td {
+      line-height: 1.6;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 200px; }
+      .app-overlay-inner .modal-info > .body td:first-child {
+        margin-right: 8px; }
+      .app-overlay-inner .modal-info > .body td:nth-child(2n) {
+        color: #FFFFFF; }
+    .app-overlay-inner .modal-info > footer {
+      width: 100%;
+      padding: 16px;
+      border-top: 1px solid #303038;
       font-weight: bold;
-      color: rgba(255, 255, 255, 0.8); }
-  .app-u-scrobbles-graph .graph {
-    padding: 20px 60px 0px 30px;
-    flex: 1;
-    overflow: hidden; }
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; }
+      .app-overlay-inner .modal-info > footer span {
+        font-weight: normal; }
+      .app-overlay-inner .modal-info > footer a:visited {
+        color: inherit; }
+      .app-overlay-inner .modal-info > footer a:active {
+        outline: 0; }
+
+.chart-labels {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  z-index: 3; }
+
+.chart-label {
+  position: absolute;
+  top: 20px;
+  margin: 0px 10px;
+  width: 80px;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1.2; }
+
+.nux {
+  position: fixed;
+  top: 30px;
+  text-align: center;
+  line-height: 1.2;
+  width: 50%;
+  left: 25%;
+  z-index: 2;
+  color: #FFFFFF; }
+  .nux h3 {
+    text-shadow: 0px 2px 44px #000000;
+    font-size: 2.4em;
+    font-weight: 300; }
+  .nux p {
+    text-shadow: 0px 2px 24px #000000; }
+    .nux p .red {
+      font-weight: bold;
+      color: #dd2a54; }
+
+.nux-bg {
+  top: -50%;
+  opacity: 0.4;
+  position: fixed;
+  width: 100%;
+  height: 160%;
+  background: -moz-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.26) 0%, transparent 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(0, 0, 0, 0.26)), color-stop(100%, transparent));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.26) 0%, transparent 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.26) 0%, transparent 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(0, 0, 0, 0.26) 0%, transparent 100%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42000000', endColorstr='#00000000',GradientType=1 ); }

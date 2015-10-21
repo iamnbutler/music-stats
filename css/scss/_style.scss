@@ -30,6 +30,10 @@ body {
 	overflow: hidden;
 }
 
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 .text-feature {
 	color: $app-secondary-color;
 }
@@ -37,13 +41,35 @@ body {
 // Header
 
 .app-header {
+	position: absolute;
+	top: 0;
+	right: 0;
 	height: $app-header-height;
-	width: 100%;
+	background-color: $app-bg-color;
+	width: 300px;
 	box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
-	z-index: 9;
+	z-index: 39;
+
+	#close {
+		display: none;
+		float: right;
+		line-height: $app-header-height;
+		width: $app-header-height;
+		text-align: center;
+		font-size: 2.2em;
+		outline: 0;
+		&:hover {
+			background-color: lighten($app-bg-color, 1%);
+		}
+		&:active {
+			outline: none;
+			outline: 0;
+		}
+	}
 
 	a {
 		float: left;
+		outline: 0;
 	}
 
 	nav {
@@ -59,19 +85,6 @@ body {
 				background-color: rgba(255,255,255,0.08);
 			}
 		}
-		.select-wrap {
-			float: left;
-			margin-right: 60px;
-			text-transform: uppercase;
-			&:first-child {
-				margin-left: 60px;
-			}
-		}
-		label {
-			color: $app-text-color;
-			font-size: 1em;
-			font-weight: bold;
-		}
 		select {
 			height: $app-header-height;
 			width: 140px;
@@ -86,6 +99,9 @@ body {
 			font-size: 1.2em;
 			font-weight: 300;
 			margin-left: 12px;
+			&:disabled, &.disabled {
+				color: $app-text-color-dark;
+			}
 		}
 	}
 
@@ -97,7 +113,6 @@ body {
 		font-weight: bold;
 		font-size: 1.2em;
 		color: $app-text-color-white;
-		border-right: 1px solid $app-border-color;
 		span {
 			font-weight: 300;
 		}
@@ -107,10 +122,19 @@ body {
 // Body
 
 .app-body {
-	position: relative;
+	position: absolute;
+	background-image: url("../img/grid.png");
+	background-repeat: repeat;
+	background-position: bottom left;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	z-index: 1;
-	header {
-		padding: 70px 36px 50px 162px;
+	> header {
+		position: relative;
+		padding: 56px 36px 50px 182px;
+		z-index: 8;
 		h2 {
 			color: $app-text-color-dark;
 			font-size: 2.6em;
@@ -120,13 +144,6 @@ body {
 			}
 		}
 	}
-
-	.inner {
-		width: 1024px;
-		margin: 0 auto;
-		display: flex;
-		@extend .cf; // Clearfix
-	}
 }
 
 
@@ -134,34 +151,26 @@ body {
 
 .app-chart {
 	position: relative;
-	height: 500px;
+	top: 0;
+	height: 100%;
 	width: 100%;
 	overflow-y: hidden;
-	overflow-x: scroll;
-	z-index: 1;
+	z-index: 7;
 
 	// Chart Grid
 
-	.app-chart-grid {
-		background-image: url("../img/grid.png");
-		background-repeat: repeat;
-		position: absolute;
-		top: 0;
-		left: -80px;
-		height: 336px;
-		min-width: 9400px;
-		border-bottom: 1px solid $app-border-em-color;
-		z-index: 1;
-	}
-
 	.app-chart-output {
 		// TODO: Calculate data range and add top margi dynamically
-		margin-top: 76px;
-		margin-left: 219px;
-		position: relative;
-		z-index: 3;
+		bottom: 0px;
+		left: 130px;
+		position: absolute;
+		z-index: 8;
 		g {
 			position: relative;
+			opacity: 0.86;
+			&:hover {
+				opacity: 1;
+			}
 		}
 		rect {
 			fill: #fff;
@@ -174,89 +183,223 @@ body {
 			}
 		}
 		text {
-			position: absolute;
-			top: -20px;
+			width: 80px;
+			fill: $app-text-color-white;
 		}
 	}
+}
 
+.app-chart-grid-wrap {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
 	.app-chart-grid-labels {
 		position: absolute;
-		top: 0;
-		left: 82px;
+		bottom: 50px;
+		left: 0px;
 		z-index: 2;
 		.label {
-			background-color: $app-bg-color;
 			color: $app-text-color-dark;
-			width: 100px;
+			width: 99px;
 			text-align: center;
-			height: 100px;
-			line-height: 100px;
+			height: 40px;
+			margin: 30px 0 30px 0;
+			line-height: 40px;
+			-webkit-margin-collapse: separate;
+		}
+	}
+}
+
+// Overlay
+
+.app-overlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 19;
+	background-color: rgba(0,0,0,0.3);
+}
+
+.app-overlay-inner {
+	position: absolute;
+	right: 0px;
+	top: 90px;
+	width: 300px;
+	z-index: 29;
+	@extend .cf;
+
+	.modal-video {
+		display: none;
+		position: relative;
+		left: 0px;
+		width: 300px;
+		height: 169px;
+		box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
+		background-color: $app-bg-color;
+		background-image: url("../img/loader.gif");
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+
+	.modal-info {
+		display: none;
+		float: left;
+		width: 300px;
+		margin-top: 20px;
+		background-color: $app-bg-color;
+		box-shadow: 2px 0px 38px rgba(0,0,0,0.4);
+
+		> header {
+			padding: 16px;
 			border-bottom: 1px solid $app-border-color;
-			&:first-child {
-				margin-top: 1px;
-				height: 101px;
+
+			h3 {
+				font-size: 1.6em;
+				color: $app-text-color-white;
+				line-height: 1.3;
+				margin-bottom: 4px;
 			}
-			&:nth-child(3) {
-				height: 97px;
-				border: 0;
+
+			#modal-i-artist {
+				text-transform: uppercase;
+				color: $app-text-color-dark;
+				font-weight: bold;
+				font-size: 0.9em;
+			}
+
+			p#modal-i-plays {
+				text-transform: uppercase;
+				color: $app-text-color-dark;
+				font-weight: bold;
+				font-size: 0.9em;
 			}
 		}
-	}
-}
 
-// Info Frame
+		> .body {
 
-.app-info-frame {
-	margin-left: 40px;
-}
+			table, tr {
+				width: 100%;
+			}
 
-.app-i-headline {
-	text-transform: uppercase;
-	font-size: 1.8em;
-	font-weight: 300;
-}
+			tr {
+				display: block;
+				padding: 12px 16px;
+				border-bottom: 1px solid $app-border-color;
+				&:last-child {
+					border: 0;
+				}
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
 
-.app-i-subhead {
-	color: $app-secondary-color;
-	font-size: 0.8em;
-	margin-bottom: 12px;
-}
+			td {
+				line-height: 1.6;
+				display: inline-block;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				max-width: 200px;
 
-.app-i-desc {
-	font-size: 0.8em;
-	line-height: 1.4;
-	max-width: 340px;
-}
+				&:first-child {
+					margin-right: 8px;
+				}
 
-// UNITS
-
-// Scrobble Graph Unit
-
-.app-u-scrobbles-graph {
-	height: 180px;
-	background-color: $app-secondary-color;
-	color: white;
-	display: flex;
-
-	.info {
-		padding: 40px 30px 40px 60px;
-		.count {
-			font-size: 2.4em;
-			line-height: 1.2;
-			font-weight: 300;
+				&:nth-child(2n) {
+					color: $app-text-color-white;
+				}
+			}
 		}
 
-		.label {
-			text-transform: uppercase;
-			font-size: 0.9em;
+		> footer {
+			width: 100%;
+			padding: 16px;
+			border-top: 1px solid $app-border-color;
 			font-weight: bold;
-			color: rgba(255,255,255,0.8);
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			span {
+				font-weight: normal;
+			}
+			a:visited {
+				color: inherit;
+			}
+			a:active {
+				outline: 0;
+			}
 		}
 	}
 
-	.graph {
-		padding: 20px 60px 0px 30px;
-		flex: 1;
-		overflow: hidden;
+}
+
+// ==========
+// Chart Labels
+// ==========
+
+.chart-labels {
+	position: absolute;
+	bottom: 0;
+	height: 100px;
+	z-index: 3;
+}
+
+.chart-label {
+	position: absolute;
+	top: 20px;
+	margin: 0px 10px;
+	width: 80px;
+	font-size: 0.75em;
+	text-align: center;
+	line-height: 1.2;
+}
+
+// ==========
+// NUX
+// ==========
+
+.nux {
+	position: fixed;
+	top: 30px;
+	text-align: center;
+	line-height: 1.2;
+	width: 50%;
+	left: 25%;
+	z-index: 2;
+	color: $app-text-color-white;
+
+	h3 {
+		text-shadow: 	0px 2px 44px #000000;
+		font-size: 2.4em;
+		font-weight: 300;
 	}
+	p {
+		text-shadow: 	0px 2px 24px #000000;
+		.red {
+			font-weight: bold;
+			color: rgb(221, 42,84);
+		}
+	}
+}
+
+.nux-bg {
+	top: -50%;
+	opacity: 0.4;
+	position: fixed;
+	width: 100%;
+	height: 160%;
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.26) 0%, rgba(0,0,0,0) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0.26)), color-stop(100%,rgba(0,0,0,0)));
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.26) 0%,rgba(0,0,0,0) 100%);
+background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.26) 0%,rgba(0,0,0,0) 100%);
+background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.26) 0%,rgba(0,0,0,0) 100%);
+background: radial-gradient(ellipse at center,  rgba(0,0,0,0.26) 0%,rgba(0,0,0,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42000000', endColorstr='#00000000',GradientType=1 );
+
 }
