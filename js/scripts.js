@@ -1,5 +1,5 @@
 // Do stuff
-var height = 420, // height of chart
+var height = 450, // height of chart
     width = 9900,
     barWidth = 40, // Width of Bar
     unitWidth = 140, // Width of one grid unit
@@ -50,24 +50,28 @@ d3.tsv("data/data.tsv", type, function(error, data) {
   // Labels
   // ==========
 
-  // chartLabels = d3.select("#chart-labels");
-  // label = '<li class="chart-label ' + function(d,i) { return "label-" + i } + '>test</li>'
+  chartLabels = d3.select("#chart-labels");
 
-  // var titles = [];
-  // titles = data.map(function(d) { return d.title });
+  for (var i = 0; i < data.length; i++) {
+    var bar = $("svg").find("#b" + i);
 
-  // for (var i = 0; i < data.length; i++) {
-  //   var bar = $("svg").find("#b" + i);
+    // chartLabels.append('div')
+    //   .attr("class", "chart-label")
+    //   .attr("id", "chart-lable" + i)
+    //   // TODO: Position text element using bar x/y
+    //   .append('p')
+    //     .attr("class", "label-title")
+    //     .text(bar.attr("title"))
+    // // $("#chart-label" + i).append('p');
 
-  //   chartLabels.append('p')
-  //     .attr("class", "chart-label")
-  //     .attr("id", "chart-lable" + i)
-  //     .text(bar.attr("title"));
-  // }
+    chartLabels.html(function() {
+      // Define svg gradient variables
+      var stop1 = '<div class="chart-label" id="chart-label' + i + '"><p class="label-title"' + bar.attr("title"); + '</p></div>';
+      return stop1;
+    });
+  }
 
-  // TODO: Make text element to assign attrs to
   // TODO: Get bar title + artist and add it to text element
-  // TODO: Position text element using bar x/y
 
   // ==========
   // Get properties for selects
