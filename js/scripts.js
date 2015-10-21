@@ -18,6 +18,8 @@ d3.tsv("data/data.tsv", type, function(error, data) {
     .attr("width", function(d) { return (data.length * barSpace) + 400; })
     .attr("height", height + 100);
   
+  // $(".app-chart").css("width", function(d) { return (data.length * barSpace) + 400; })
+
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   var bar = chart.selectAll("g")
@@ -52,24 +54,28 @@ d3.tsv("data/data.tsv", type, function(error, data) {
 
   chartLabels = d3.select("#chart-labels");
 
-  for (var i = 0; i < data.length; i++) {
-    var bar = $("svg").find("#b" + i);
+  $("#app-chart-output").on( 'mouseenter', '.bar', function(){
+    var node = $(this);
+
+    id = node.attr("id");
+    title = node.attr("title");
+    pos = node.position();
+    console.log(pos.left);
+
+    var chartLabel = $('<div y="' + pos.left + '" class="chart-label" id="label' + id + '" style="left: ' + pos.left + 'px">' + title + '</div>');
+
+    chartLabel.appendTo(chartLabels);
 
     // chartLabels.append('div')
-    //   .attr("class", "chart-label")
-    //   .attr("id", "chart-lable" + i)
-    //   // TODO: Position text element using bar x/y
-    //   .append('p')
-    //     .attr("class", "label-title")
-    //     .text(bar.attr("title"))
-    // // $("#chart-label" + i).append('p');
+    //   .attr("id", "label-" + id)
+    //   .text(title)
+    //   .css("left", pos.left);
 
-    chartLabels.html(function() {
-      // Define svg gradient variables
-      var stop1 = '<div class="chart-label" id="chart-label' + i + '"><p class="label-title"' + bar.attr("title"); + '</p></div>';
-      return stop1;
-    });
-  }
+    // $("#chart-labels").find("#label" + id).css("backgroundColor", "blue");
+
+    // TODO: Destroy labels on mouseout
+
+  });
 
   // TODO: Get bar title + artist and add it to text element
 
@@ -270,6 +276,15 @@ $(document).ready(function(){
 
   $("#app-chart-output").on( 'mouseenter', '.bar', function(){
     
+  });
+
+  // ==========
+  // NUX
+  // ==========
+
+  $("#app-chart-output").on( 'click', '.bar', function(){
+    $("#nux").addClass('animated bounceOutUp');
+    $(".nux-bg").addClass('animated fadeOut');
   });
 
 });
