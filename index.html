@@ -15,77 +15,79 @@
 
 	</head>
 	<body>
-		<div class="app-wrap">
-			<div class="app-header">
-				<div class="inner">
-					<a href="#" class="logo">Music <span>Stats</span></a>
-					<nav>
-						<div class="select-wrap">
-							<label for="">Sort</label>
-							<select name="sortOrder" id="sortOrder" class="sortOrder">
-								<option value="Most played">Most Plays</option>
-								<option value="Least played">Least Plays</option>
-								<option value="Ordered">Song Title</option>
-								<option value="Newest">Newest Tracks</option>
-								<option value="Oldest">Oldest Tracks</option>
-							</select>
-						</div>
-						<div class="select-wrap">
-							<label for="">Artist</label>
-							<select disabled name="artistDropdown" id="" class="artistDropdown">
-								<option value="allArtists">All Artists</option>
-							</select>
-						</div>
-						<div class="select-wrap">
-							<label for="">Album</label>
-							<select disabled name="albumDropdown" id="" class="albumDropdown">
-								<option value="allArtists">All Albums</option>
-							</select>
-						</div>
-					</nav>
+		<div class="app-header">
+			<div class="inner">
+				<a href="#" class="logo">Music <span>Stats</span></a>
+				<a href="#" id="close" class="animated">&times;</a>
+			</div>
+		</div>
+		<div class="app-body">
+			<div class="app-overlay animated">
+			</div>
+			<div class="app-overlay-inner animated">
+				<div class="modal-video animated" id="modal-video-embed"></div>
+				<div class="modal-info animated">
+					<header>
+						<h3 id="modal-i-title">Title</h3>
+						<p id="modal-i-artist">42 Plays</p>
+					</header>
+					<div class="body">
+						<table>
+							<tr>
+								<td>Album:</td>
+								<td><span id="modal-i-album">Album</span></td>
+							</tr>
+							<!-- <tr>
+								<td>Date Added:</td>
+								<td><span id="modal-i-date"></span></td>
+							</tr> -->
+							<tr>
+								<td>Plays:</td>
+								<td><span id="modal-i-plays">165</span></td>
+							</tr>
+							<!-- <tr>
+								<td>Rank:</td>
+								<td><span id="modal-i-rank"></span></td>
+							</tr> -->
+						</table>
+					</div>
+					<footer>
+						<a href="#" id="footer-search" target="blank">
+							Find More <span>//</span> <span id="footer-info">Artist - Album</span>
+						</a>
+					</footer>
 				</div>
 			</div>
-			<div class="app-body">
-				<div class="app-overlay animated">
-				</div>
-				<div class="app-overlay-inner animated">
-					<div class="modal-video" id="modal-video-embed"></div>
-					<div class="modal-info">
-						<header>
-							<h3 id="modal-i-title">Title</h3>
-							<p id="modal-i-plays">42 Plays</p>
-						</header>
-					</div>
-				</div>
-				<div class="app-chart">
-					<svg class="app-chart-output" id="app-chart-output">
-						<defs>
-							<!-- Define SVG drop shadow filter -->
-							<filter id="dropshadow" height="120%">
-							  <feGaussianBlur in="SourceAlpha" stdDeviation="4"/> <!-- stdDeviation is how much to blur -->
-							  <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
-							  <feComponentTransfer xmlns="http://www.w3.org/2000/svg">
-						        <feFuncA type="linear" slope="0.2"/>
-						      </feComponentTransfer>
-							  <feMerge> 
-							    <feMergeNode/> <!-- this contains the offset blurred image -->
-							    <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
-							  </feMerge>
-							</filter>
-						</defs>
-					</svg>
-				</div>
-				<div class="app-chart-grid-wrap">
-					<div class="app-chart-grid"></div>
-					<ul class="app-chart-grid-labels">
-						<li class="label" id="label-6">75</li>
-						<li class="label" id="label-5">60</li>
-						<li class="label" id="label-4">45</li>
-						<li class="label" id="label-3">30</li>
-						<li class="label" id="label-2">15</li>
-						<li class="label" id="label-1">00</li>						
-					</ul>
-				</div>
+			<div class="app-chart">
+				<svg class="app-chart-output" id="app-chart-output">
+					<defs>
+						<!-- Define SVG drop shadow filter -->
+						<filter id="dropshadow" height="120%">
+						  <feGaussianBlur in="SourceAlpha" stdDeviation="4"/> <!-- stdDeviation is how much to blur -->
+						  <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+						  <feComponentTransfer xmlns="http://www.w3.org/2000/svg">
+					        <feFuncA type="linear" slope="0.2"/>
+					      </feComponentTransfer>
+						  <feMerge> 
+						    <feMergeNode/> <!-- this contains the offset blurred image -->
+						    <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+						  </feMerge>
+						</filter>
+					</defs>
+				</svg>
+				<div id="chart-labels" class="chart-labels"></div>
+			</div>
+			<div class="app-chart-grid-wrap">
+				<div class="app-chart-grid"></div>
+				<ul class="app-chart-grid-labels">
+					<li class="label" id="label-6">60</li>
+					<li class="label" id="label-6">50</li>
+					<li class="label" id="label-5">40</li>
+					<li class="label" id="label-4">30</li>
+					<li class="label" id="label-3">20</li>
+					<li class="label" id="label-2">10</li>
+					<li class="label" id="label-1">00</li>						
+				</ul>
 			</div>
 		</div>
 

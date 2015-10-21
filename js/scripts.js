@@ -1,31 +1,37 @@
 // Do stuff
-var height = 358, // height of chart
+var height = 420, // height of chart
     width = 9900,
-    barWidth = 30, // Width of Bar
-    unitWidth = 76, // Width of one grid unit
+    barWidth = 40, // Width of Bar
+    unitWidth = 140, // Width of one grid unit
     barSpace = unitWidth - barWidth;
 
 var y = d3.scale.linear()
     .range([height, 0]);
 
+// ==========
+// Get Data
+// ==========
+
 d3.tsv("data/data.tsv", type, function(error, data) {
 
   var chart = d3.select(".app-chart-output")
     .attr("width", function(d) { return (data.length * barSpace) + 400; })
-    .attr("height", height);
+    .attr("height", height + 100);
   
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   var bar = chart.selectAll("g")
       .data(data)
     .enter().append("g")
-      .attr("id", function(d,i) { return i })
+      .attr("id", function(d,i) { return 'b' + i })
       .attr("class", "bar")
       .attr("transform", function(d, i) { return "translate(" + i * barSpace + ",0)"; })
       .attr("title", function(d) { return d.title; }) // Append Title
       .attr("artist", function(d) { return d.artist; }) // Append Artist
       .attr("album", function(d) { return d.album; }) // Append Album
       .attr("plays", function(d) { return d.value; }) // Append Value
+      .attr("dAdded", function(d) { return d.dAdded; }) // Append Date
+      .attr("rank", function(d) { return i; }) // Append Rank
 
   bar.append("rect")
       .attr("y", function(d) { return y(d.value); })
@@ -36,9 +42,36 @@ d3.tsv("data/data.tsv", type, function(error, data) {
   // // Chart labels
   // bar.append("text")
   //     .attr("x", (barWidth / 2) - 10)
-  //     .attr("y", function(d) { return y(d.value) - 18; })
+  //     .attr("y", 440)
   //     .attr("dy", ".75em")
-  //     .text(function(d) { return d.value; });
+  //     .text(function(d) { return d.title; });
+
+  // ==========
+  // Labels
+  // ==========
+
+  // chartLabels = d3.select("#chart-labels");
+  // label = '<li class="chart-label ' + function(d,i) { return "label-" + i } + '>test</li>'
+
+  // var titles = [];
+  // titles = data.map(function(d) { return d.title });
+
+  // for (var i = 0; i < data.length; i++) {
+  //   var bar = $("svg").find("#b" + i);
+
+  //   chartLabels.append('p')
+  //     .attr("class", "chart-label")
+  //     .attr("id", "chart-lable" + i)
+  //     .text(bar.attr("title"));
+  // }
+
+  // TODO: Make text element to assign attrs to
+  // TODO: Get bar title + artist and add it to text element
+  // TODO: Position text element using bar x/y
+
+  // ==========
+  // Get properties for selects
+  // ==========
 
   // Get list of artists
 
@@ -115,28 +148,6 @@ d3.tsv("data/data.tsv", type, function(error, data) {
 
   }
 
-  // Order chart by selected option
-
-  function getOrder(sel) {
-    // Store the value of the sortOrder select
-    var order = document.getElementById('sortOrder').value;
-    $("#header-play-order").html(order);
-  }
-
-  function sortByDateAscending(a, b) {
-    // Dates will be cast to numbers automagically:
-    return a.value - b.value;
-  }
-
-  $( ".sortOrder" ).change(function() {
-    // Run when sortOrder select changes
-    // TODO: Reorder chart when select changes
-    getOrder();
-    data = data.sort(sortByDateAscending);
-    chart.selectAll(".bar")
-        .sort(function(a, b) { return b.value - a.value; });
-  });
-
 });
 
 function type(d) {
@@ -152,45 +163,58 @@ $(document).ready(function(){
   });   
 
   // ==========
-  // Overlay
+  // Modal
   // ==========
 
   // Hide overlay on clicking outside modal
   var overlay = $(".app-overlay");
-  var modal = $(".app-overlay-inner");
+  var info = $(".modal-info");
   var embed = $("#modal-video-embed");
+  var close = $("#close");
+  var timeout;
 
-  overlay.click(function(){
-    modal.addClass('bounceOutUp');
-    overlay.addClass('fadeOut');
-    window.setTimeout(overlayCleanup, 800); // Wait to start the cleanup function
-  });
+  function infoShow() { 
+    // overlay.show();  // Hide overlay for next use
+    info.show();
 
-  function overlayShow() { 
-    overlay.show();  // Hide overlay for next use
-    modal.show();
+    info.removeClass('bounceOutRight').addClass('bounceInRight');
 
-    modal.addClass('bounceInUp');
-    overlay.addClass('fadeIn');
+  }
+
+  function videoShow() { 
+    // overlay.show();  // Hide overlay for next use
+    embed.show();
+    $("#close").show().removeClass('fadeOut').addClass('fadeIn');
+
+    embed.removeClass('bounceOutRight').addClass('bounceInRight');
+
   }
 
   function overlayCleanup() { 
-    overlay.hide();  // Hide overlay for next use
-    modal.hide();
-    embed.html(' ');
-
-    modal.removeClass('bounceOutUp'); // Remove animated classes after hidden
-    overlay.removeClass('fadeOut');
+    info.removeClass('bounceInRight').addClass('bounceOutRight');
+    window.setTimeout(function(){ info.hide() }, 800);
   }
 
   // Create and populate modal for clicked node
-  function populateModal(node) {
-    var title = node.attr('title'); // Set title
+  function populateModalInfo(node) {
+    var title = node.attr('title'),
+        album = node.attr('album'),
+        artist = node.attr('artist'),
+        // dateAdded = node.attr('dAdded'),
+        // rank = node.attr('rank');
+        plays = node.attr('plays'); // Set title
     $('#modal-i-title').html(title);
-
-    var plays = node.attr('plays'); // Set plays
+    $('#modal-i-artist').html(artist);
+    $('#modal-i-album').html(album);
     $('#modal-i-plays').html(plays + " Plays");
+    // $('#modal-i-date').html(dateAdded);
+    // $('#modal-i-rank').html(rank);
+    $('#footer-search').attr("href", "https://www.google.ca/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=" + artist + "%20-%20" + album);
+    $('#footer-info').html(artist + " - " + album);
+  }
 
+  function populateModalVideo(node) {
+    var title = node.attr('title'); // Set title
     var artist = node.attr('artist'); // Set plays
 
     // Query YT for song name
@@ -205,6 +229,7 @@ $(document).ready(function(){
             makeYTRequest(query);
     });
   }
+  //-- YT: Use videoId to create embed link
   function makeYTRequest(query) {
     var q = query;
     var request = gapi.client.youtube.search.list({
@@ -214,22 +239,33 @@ $(document).ready(function(){
     });
     request.execute(function(response) {
             var videoId = response.result.items[0].id.videoId
-            var embedHtml = '<iframe width="853" height="480" src="https://www.youtube.com/embed/' + videoId +'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
-            console.log(embedHtml);
+            var embedHtml = '<iframe width="300" height="169" src="https://www.youtube.com/embed/' + videoId +'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
             embed.html(embedHtml);
     });
   }
 
-  //-- YT: Use videoId to create embed link
-
-  // TODO: Center modal properly
   $("#app-chart-output").on( 'click', '.bar', function(){
     var node = $(this);
 
     // Populate modal content
-    populateModal(node);
-    overlayShow();
+    info.show();
+    populateModalInfo(node);
+    populateModalVideo(node);
+    infoShow();
+    videoShow();
+
   });
 
+  close.click(function(){
+    info.addClass('bounceOutRight');
+    embed.addClass('bounceOutRight');
+    close.removeClass('fadeIn').addClass('fadeOut');
+    window.setTimeout(overlayCleanup, 800); // Wait to start the cleanup function
+  });
+
+
+  $("#app-chart-output").on( 'mouseenter', '.bar', function(){
+    
+  });
 
 });
