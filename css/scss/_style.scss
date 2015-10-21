@@ -57,8 +57,9 @@ body {
 		width: $app-header-height;
 		text-align: center;
 		font-size: 2.2em;
+		outline: 0;
 		&:hover {
-			background-color: lighten($app-bg-color, 2%);
+			background-color: lighten($app-bg-color, 1%);
 		}
 		&:active {
 			outline: none;
@@ -68,6 +69,7 @@ body {
 
 	a {
 		float: left;
+		outline: 0;
 	}
 
 	nav {
@@ -151,9 +153,9 @@ body {
 	position: relative;
 	top: 0;
 	height: 100%;
+	width: 100%;
 	overflow-y: hidden;
-	overflow-x: scroll;
-	z-index: 2;
+	z-index: 7;
 
 	// Chart Grid
 
@@ -162,7 +164,7 @@ body {
 		bottom: 0px;
 		left: 130px;
 		position: absolute;
-		z-index: 3;
+		z-index: 8;
 		g {
 			position: relative;
 			opacity: 0.86;
@@ -341,9 +343,21 @@ body {
 // Chart Labels
 // ==========
 
+.chart-labels {
+	position: absolute;
+	bottom: 0;
+	height: 100px;
+	z-index: 3;
+}
+
 .chart-label {
-	position: fixed;
-	bottom: 40px;
+	position: absolute;
+	top: 20px;
+	margin: 0px 10px;
+	width: 80px;
+	font-size: 0.75em;
+	text-align: center;
+	line-height: 1.2;
 }
 
 // ==========
@@ -351,7 +365,7 @@ body {
 // ==========
 
 .nux {
-	position: absolute;
+	position: fixed;
 	top: 30px;
 	text-align: center;
 	line-height: 1.2;

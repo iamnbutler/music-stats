@@ -18,8 +18,6 @@ d3.tsv("data/data.tsv", type, function(error, data) {
     .attr("width", function(d) { return (data.length * barSpace) + 400; })
     .attr("height", height + 100);
   
-  // $(".app-chart").css("width", function(d) { return (data.length * barSpace) + 400; })
-
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   var bar = chart.selectAll("g")
@@ -54,26 +52,27 @@ d3.tsv("data/data.tsv", type, function(error, data) {
 
   chartLabels = d3.select("#chart-labels");
 
+  $("#chart-labels").css("width", function(d) { return (data.length * barSpace) + 400; });
+
   $("#app-chart-output").on( 'mouseenter', '.bar', function(){
     var node = $(this);
 
     id = node.attr("id");
     title = node.attr("title");
     pos = node.position();
-    console.log(pos.left);
+    posLeft = parseInt(pos.left) + 100;
+    console.log(posLeft);
 
-    var chartLabel = $('<div y="' + pos.left + '" class="chart-label" id="label' + id + '" style="left: ' + pos.left + 'px">' + title + '</div>');
+    var chartLabel = $('<div class="chart-label" id="label' + id + '" style="left: ' + posLeft + 'px">' + title + '</div>');
 
     chartLabel.appendTo(chartLabels);
 
-    // chartLabels.append('div')
-    //   .attr("id", "label-" + id)
-    //   .text(title)
-    //   .css("left", pos.left);
-
-    // $("#chart-labels").find("#label" + id).css("backgroundColor", "blue");
-
     // TODO: Destroy labels on mouseout
+
+  });
+
+  $("#app-chart-output").on( 'mouseleave', '.bar', function(){
+    chartLabels.html('');
 
   });
 
@@ -194,7 +193,7 @@ $(document).ready(function(){
   function videoShow() { 
     // overlay.show();  // Hide overlay for next use
     embed.show();
-    $("#close").show().removeClass('fadeOut').addClass('fadeIn');
+    $("#close").show().removeClass('bouncOut').addClass('fadeIn');
 
     embed.removeClass('bounceOutRight').addClass('bounceInRight');
 
@@ -269,7 +268,7 @@ $(document).ready(function(){
   close.click(function(){
     info.addClass('bounceOutRight');
     embed.addClass('bounceOutRight');
-    close.removeClass('fadeIn').addClass('fadeOut');
+    close.removeClass('fadeIn').addClass('bounceOut');
     window.setTimeout(overlayCleanup, 800); // Wait to start the cleanup function
   });
 

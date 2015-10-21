@@ -113,14 +113,16 @@ body {
     line-height: 70px;
     width: 70px;
     text-align: center;
-    font-size: 2.2em; }
+    font-size: 2.2em;
+    outline: 0; }
     .app-header #close:hover {
-      background-color: #2e2e33; }
+      background-color: #2b2b31; }
     .app-header #close:active {
       outline: none;
       outline: 0; }
   .app-header a {
-    float: left; }
+    float: left;
+    outline: 0; }
   .app-header nav {
     margin-left: 24px; }
     .app-header nav a {
@@ -184,14 +186,14 @@ body {
   position: relative;
   top: 0;
   height: 100%;
+  width: 100%;
   overflow-y: hidden;
-  overflow-x: scroll;
-  z-index: 2; }
+  z-index: 7; }
   .app-chart .app-chart-output {
     bottom: 0px;
     left: 130px;
     position: absolute;
-    z-index: 3; }
+    z-index: 8; }
     .app-chart .app-chart-output g {
       position: relative;
       opacity: 0.86; }
@@ -319,12 +321,23 @@ body {
       .app-overlay-inner .modal-info > footer a:active {
         outline: 0; }
 
+.chart-labels {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  z-index: 3; }
+
 .chart-label {
-  position: fixed;
-  bottom: 40px; }
+  position: absolute;
+  top: 20px;
+  margin: 0px 10px;
+  width: 80px;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1.2; }
 
 .nux {
-  position: absolute;
+  position: fixed;
   top: 30px;
   text-align: center;
   line-height: 1.2;
